@@ -1,1 +1,1 @@
-I will be the project README, for now I'm empty
+Now I am finally the project README, this is just for some tries
