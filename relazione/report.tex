@@ -48,14 +48,43 @@ collezionabili come ricompensa.
 
 \section{Modello del Dominio}
 
-
-
+L'applicazione modella, nel suo dominio, tutte le entità - viventi e non - del gioco.
+%
+Partendo dalle entità viventi, dovrà modellare il protagonista, con i suoi comportamenti controllati dal giocatore, 
+così come i personaggi non giocanti, che saranno da distinguere fra ostili e pacifici. Fra i personaggi ostili,
+si distinguono alcune categorie di nemici, che avranno ognuna le proprie caratteristiche.
+%
 \begin{figure}[H]
 	\centering{}
-	\includegraphics{img/analysis.pdf}
+	\includegraphics{img/}
 	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
 	\label{img:analysis}
 \end{figure}
+%
+Si introducono poi gli oggetti di arredo, ovvero tutti quegli elementi che potranno popolare le stanze di gioco.
+Fra questi si distinguono principalmente gli oggetti calpestabili (come tappeti o fiori) e non calpestabili (come vasi
+e armature). Inoltre, si vedranno distinti gli oggetti interattivi e non. Ogni arredo potrà combinare liberamente le
+caratteristiche di calpestabilità e interattività.
+%
+\begin{figure}[H]
+	\centering{}
+	\includegraphics{img/}
+	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
+	\label{img:analysis}
+\end{figure}
+%
+Infine, si modellano gli oggetti dell'inventario, che si dividono in 4 macro categorie: armi (che aumentano il
+danno inflitto dal giocatore), armature (che limitano il danno subito dal giocatore), curativi (che vengono consumati
+a piacere dal giocatore e ne ripristinano la salute) e collezionabili (che sono oggetti non utilizzabili che il
+giocatore potrà raccogliere durante la partita).
+%
+\begin{figure}[H]
+	\centering{}
+	\includegraphics{img/}
+	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
+	\label{img:analysis}
+\end{figure}
+%
 
 \section{Requisiti}
 
