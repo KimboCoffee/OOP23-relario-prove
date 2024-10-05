@@ -1,0 +1,37 @@
+@startuml
+package it.unibo.oop.relario.model.living {
+    interface PlayingCharacter{
+        + {method} attack
+        + {method} move
+        + {method} handleInventory
+    }
+
+    interface NonPlayingCharacter{
+        + {method} isHostile
+        + {method} interact
+    }
+
+    interface Hostile extends NonPlayingCharacter{
+        + {method} isHostile returns True
+        + {method} isMerciful
+        + {method} dropsOnDeath
+    }
+
+    interface Thief extends Hostile{
+        + {method} isMerciful returns False
+    }
+
+    interface Soldier extends Hostile{
+        + {method} isMerciful returns True
+    }
+
+    interface Wizard extends Hostile{
+        + {method} isMerciful returns True
+    }
+
+    interface Neutral extends NonPlayingCharacter{
+        + {method} isHostile returns False
+        + {method} isHelpful
+    }
+}
+@enduml
