@@ -10,34 +10,14 @@ package it.unibo.oop.relario.model.furniture {
         + {method} hasEnemy
     }
 
-    interface Flowers extends WalkableFurniture {
-
-    }
-
-    interface Grass extends WalkableFurniture {
-
-    }
-
     interface ObstructingFurniture extends FurnitureItem {
         + {method} isWalkable returns False
         + {method} isInteractive returns False
     }
 
-    interface Statue extends ObstructingFurniture {
-        + {method} isInteractive
-    }
-
     interface InteractiveFurniture extends ObstructingFurniture {
         + {method} isInteractive returns True
         + {method} dropLoot
-    }
-
-    interface Armor extends InteractiveFurniture {
-
-    }
-
-    interface Pot extends InteractiveFurniture {
-
     }
 }
 @enduml
