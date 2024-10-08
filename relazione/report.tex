@@ -88,46 +88,23 @@ giocatore potrà raccogliere durante la partita).
 
 \section{Requisiti}
 
-Nell'analisi dei \emph{requisiti} dell'applicazione si dovrà spiegare cosa l'applicazione dovrà fare.
-%
-È consigliato descrivere separatamente i requisiti funzionali
-(\emph{cosa} fa il sistema)
-da quelli non funzionali
-(\emph{come} lo fa, ad esempio in termini di prestazioni, sicurezza, portabilità).
-
-\subsection*{Elementi positivi}
-\begin{itemize}
-	\item Si fornisce una descrizione in linguaggio naturale di ciò che il software dovrà fare.
-	\item Gli obiettivi sono spiegati con chiarezza, per punti.
-	\item Vengono descritti separatamente requisiti funzionali e non funzionali.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
-	\item Si forniscono indicazioni circa le soluzioni che si vogliono adottare.
-	\item Si forniscono dettagli di tipo tecnico o implementativo (parlando di classi, linguaggi di programmazione, librerie, eccetera).
-\end{itemize}
-
-\subsection*{Esempio}
-
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
-	\item La suddetta intelligenza artificiale dovrà occuparsi di coordinare le attività all'interno
-delle camere di test di Aperture, guidando l'utente attraverso un certo numero di sfide di
-difficoltà crescente. Una camera di test è un ambiente realizzato da Aperture Laboratories Inc. al
-fine di mettere alla prova le proprie tecnologie di manipolazione dell'ambiente. All'interno della
-camera di test, un soggetto qualificato è incaricato di sfruttare gli strumenti messi a
-disposizione da Aperture per risolvere alcuni rompicapi. I rompicapi sono di tipo fisico (ad
-esempio, manipolazione di oggetti, pressione di pulsanti, azionamento di leve), e si ritengono
-conclusi una volta che il soggetto riesce a trovare l'uscita dalla camera di test.
-	\item Il piano preciso ed il numero delle sfide sarà variabile, e GLaDOS dovrà essere in grado di adattarsi dinamicamente e di fornire indicazioni di guida.
-	\item La personalità di GLaDOS dovrà essere modificabile.
-	\item GLaDOS dovrà essere in grado di comunicare col reparto cucina di Aperture, per ordinare torte da donare agli utenti che completassero l'ultima camera di test con successo.
+	\item Il software sviluppa un gioco 2D con vista dall'alto, in cui il protagonista, controllato dall'utente,
+	deve superare alcune stanze (con le relative sfide) per raggiungere il suo obiettivo finale, ovvero lo scontro
+	col Re.
+	\item Durante l'esplorazione delle stanze si potranno incontrare dei personaggi, nemici o amici, con cui sarà 
+	possibile interagire. Con i personaggi amici l'interazione sarà un dialogo, mentre con i nemici interagire 
+	significherà aprire la modalità di combattimento.
+	\item Nella modalità di combattimento il software è organizzato a turni. Ad ogni turno, il giocatore avrà varie 
+	possibilità: attaccare, consultare l'inventario ed eventualmente utilizzarne gli elementi, oppure chiedere pietà 
+	al nemico.
 \end{itemize}
 
 \subsubsection{Requisiti non funzionali}
 \begin{itemize}
-	\item GLaDOS dovrà essere estremamente efficiente nell'uso delle risorse. Le specifiche tecniche parlano della possibilità di funzionare su dispositivi alimentati da una batteria a patata.
+	\item Per offire un'esperienza gradevole all'utente, si mira a realizzare un software efficiente.
+	\item Il software sarà portabile su tutti i maggiori sistemi operativi.
 \end{itemize}
 
 \chapter{Design}
