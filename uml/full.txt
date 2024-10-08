@@ -1,0 +1,42 @@
+@startuml
+package it.unibo.oop.relario {
+    package model {
+        package furniture {
+
+        }
+
+        package inventory {
+            interface Inventory {
+                + {method} useItem
+                + {method} getItemName
+                + {method} getItemDescription
+                + {method} dropItem
+                + {method} getItemsList
+                + {method} addItem
+                + {method} getItemsNumber
+            }
+
+            interface InventoryItem {
+                + {method} getName
+                + {method} getDescription
+            }
+        }
+
+        package entities {
+
+        }
+    }
+
+    package view {
+        interface View {
+
+        }
+    }
+
+    package controller {
+        interface Controller {
+
+        }
+    }
+}
+@enduml
