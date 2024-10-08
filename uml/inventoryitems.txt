@@ -1,0 +1,30 @@
+@startuml
+package it.unibo.oop.relario.model.inventory {
+    interface Inventory {
+        + {method} useItem(int index)
+        + {method} getItemDescription(int index)
+        + {method} addItem
+        + {method} getItemsNumber
+    }
+
+    interface InventoryItem {
+        + {method} getDescription
+    }
+
+    interface Weapon extends InventoryItem{
+        + {method} getDamage
+        + {method} getLife
+    }
+
+    interface Armor extends InventoryItem {
+        + {method} getProtection
+        + {method} getLife
+    }
+
+    interface Healing extends InventoryItem {
+        + {method} getHealingPower
+    }
+
+    interface Collectible extends InventoryItem
+}
+@enduml
