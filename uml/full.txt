@@ -15,7 +15,7 @@ package it.unibo.oop.relario {
         }
 
         package inventory {
-            class Inventory {
+            interface Inventory {
                 + {method} useItem
                 + {method} getItemName
                 + {method} getItemDescription
@@ -48,6 +48,8 @@ package it.unibo.oop.relario {
                 + {method} attacked
                 + {method} getLife
             }
+
+            Inventory *-- PlayingCharacter
 
             interface NonPlayingCharacter {
                 + {method} interact
