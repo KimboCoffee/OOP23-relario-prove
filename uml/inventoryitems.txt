@@ -9,6 +9,8 @@ package it.unibo.oop.relario.model.inventory {
 
     interface InventoryItem {
         + {method} getDescription
+        + {method} getEffect
+        + {method} getIntensity
     }
 
     interface Weapon extends InventoryItem{

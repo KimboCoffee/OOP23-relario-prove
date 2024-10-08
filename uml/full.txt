@@ -19,6 +19,27 @@ package it.unibo.oop.relario {
             interface InventoryItem {
                 + {method} getName
                 + {method} getDescription
+                + {method} getEffect
+                + {method} getPower
+                + {method} getUsability
+            }
+
+            interface Weapon extends InventoryItem{
+                + {method} getEffect return damage
+            }
+
+            interface Armor extends InventoryItem{
+                + {method} getEffect returns protection
+            }
+
+            interface Healing extends InventoryItem{
+                + {method} getEffect returns healing
+                + {method} getUsability returns singleUse
+            }
+
+            interface Collectible extends InventoryItem{
+                + {method} getEffect returns none
+                + {method} getPower returns 0
             }
         }
 
