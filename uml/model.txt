@@ -41,14 +41,11 @@ package it.unibo.oop.relario {
         }
 
         package entities {
-            interface Entity {
-                + {method} update
-                + {method} getPosition
-            }
 
-            interface NonPlayingEntity extends Entity {
+            interface NonPlayingEntity {
                 + {method} isInteractive
                 + {method} interact
+                + {method} getPosition
             }
 
             package living{
@@ -56,6 +53,7 @@ package it.unibo.oop.relario {
                     + {method} handleInventory
                     + {method} attacked
                     + {method} getLife
+                    + {method} update
                 }
 
                 PlayingCharacter *-- Inventory
@@ -86,12 +84,12 @@ package it.unibo.oop.relario {
                 abstract class ObstructingFurniture extends FurnitureItem {}
             }
 
-            Room *-- Entity
-            Fight *-- PlayingCharacter
-            Fight *-- Enemy
+            Room *-- NonPlayingEntity
+            Room o-- PlayingCharacter
+            Fight o-- PlayingCharacter
+            Fight o-- Enemy
             NonPlayingEntity <|-- FurnitureItem
             NonPlayingEntity <|-- NonPlayingCharacter
-            Entity <|-- PlayingCharacter
         }
     }
 }
