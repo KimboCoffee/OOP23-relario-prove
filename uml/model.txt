@@ -2,7 +2,15 @@
 package it.unibo.oop.relario {
     package model {
 
-        
+        interface Room {
+            + {method} update
+        }
+
+        interface Fight {
+            + {method} attack
+            + {method} inventoryHandled
+            + {method} begForMercy
+        }
 
         package inventory {
             interface Inventory {
@@ -28,10 +36,13 @@ package it.unibo.oop.relario {
             abstract class Armor extends InventoryItem {}
 
             abstract class Healing extends InventoryItem {}
+
+            Inventory o-- InventoryItem
         }
 
         package entities {
             interface Entity {
+                + {method} update
                 + {method} getPosition
             }
 
@@ -41,8 +52,7 @@ package it.unibo.oop.relario {
             }
 
             package living{
-                interface PlayingCharacter extends Entity{
-                    + {method} move
+                interface PlayingCharacter {
                     + {method} handleInventory
                     + {method} attacked
                     + {method} getLife
@@ -50,14 +60,13 @@ package it.unibo.oop.relario {
 
                 PlayingCharacter *-- Inventory
 
-                interface NonPlayingCharacter extends NonPlayingEntity {
-                    + {method} interact
+                interface NonPlayingCharacter {
                 }
 
                 interface Enemy extends NonPlayingCharacter {
                     + {method} dropsOnDeath
                     + {method} attacked
-                    + {method} begMercy
+                    + {method} mercyAsked
                 }
 
                 abstract class Wizard extends Enemy {}
@@ -68,16 +77,21 @@ package it.unibo.oop.relario {
             }
 
             package furniture {
-                interface FurnitureItem extends NonPlayingEntity {
+                interface FurnitureItem {
                     + {method} isWalkable
-                    + {method} isInteractive
-                    + {method} interact
                 }
 
-                interface WalkableFurniture extends FurnitureItem {}
+                abstract class WalkableFurniture extends FurnitureItem {}
 
-                interface ObstructingFurniture extends FurnitureItem {}
+                abstract class ObstructingFurniture extends FurnitureItem {}
             }
+
+            Room *-- Entity
+            Fight *-- PlayingCharacter
+            Fight *-- Enemy
+            NonPlayingEntity <|-- FurnitureItem
+            NonPlayingEntity <|-- NonPlayingCharacter
+            Entity <|-- PlayingCharacter
         }
     }
 }
