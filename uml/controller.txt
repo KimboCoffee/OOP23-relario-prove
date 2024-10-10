@@ -1,0 +1,18 @@
+@startuml
+package it.unibo.oop.relario{
+    package controller {
+
+        interface Observer {
+            + {method} onNotify
+        }
+
+        interface GameViewObserver extends Observer {}
+
+        interface CombatViewObserver extends Observer {}
+
+        interface MenuViewObserver extends Observer {}
+
+        interface OptionMenuObserver extends Observer {}
+    }
+}
+@enduml
