@@ -23,11 +23,11 @@ package it.unibo.oop.relario {
                 + {method} getDurability
             }
 
-            interface Weapon extends InventoryItem {}
+            abstract class Weapon extends InventoryItem {}
 
-            interface Armor extends InventoryItem {}
+            abstract class Armor extends InventoryItem {}
 
-            interface Healing extends InventoryItem {}
+            abstract class Healing extends InventoryItem {}
         }
 
         package entities {
@@ -59,6 +59,12 @@ package it.unibo.oop.relario {
                     + {method} attacked
                     + {method} begMercy
                 }
+
+                abstract class Wizard extends Enemy {}
+
+                abstract class Soldier extends Enemy {}
+                
+                abstract class Thief extends Enemy {}
             }
 
             package furniture {
