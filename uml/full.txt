@@ -68,17 +68,5 @@ package it.unibo.oop.relario {
             interface Wizard extends Enemy {}
         }
     }
-
-    package view {
-        interface View {
-
-        }
-    }
-
-    package controller {
-        interface Controller {
-
-        }
-    }
 }
 @enduml
