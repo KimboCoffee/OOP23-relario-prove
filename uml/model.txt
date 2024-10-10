@@ -1,18 +1,8 @@
 @startuml
 package it.unibo.oop.relario {
     package model {
-        package furniture {
-            interface FurnitureItem {
-                + {method} getPosition
-                + {method} isWalkable
-                + {method} isInteractive
-                + {method} interact
-            }
 
-            interface WalkableFurniture extends FurnitureItem {}
-
-            interface ObstructingFurniture extends FurnitureItem {}
-        }
+        
 
         package inventory {
             interface Inventory {
@@ -41,31 +31,47 @@ package it.unibo.oop.relario {
         }
 
         package entities {
-            interface PlayingCharacter {
-                + {method} move
-                + {method} handleInventory
+            interface Entity {
                 + {method} getPosition
-                + {method} attacked
-                + {method} getLife
             }
 
-            PlayingCharacter *-- Inventory
-
-            interface NonPlayingCharacter {
+            interface NonPlayingEntity extends Entity {
+                + {method} isInteractive
                 + {method} interact
             }
 
-            interface Enemy extends NonPlayingCharacter {
-                + {method} dropsOnDeath
-                + {method} attacked
-                + {method} begMercy
+            package living{
+                interface PlayingCharacter extends Entity{
+                    + {method} move
+                    + {method} handleInventory
+                    + {method} attacked
+                    + {method} getLife
+                }
+
+                PlayingCharacter *-- Inventory
+
+                interface NonPlayingCharacter extends NonPlayingEntity {
+                    + {method} interact
+                }
+
+                interface Enemy extends NonPlayingCharacter {
+                    + {method} dropsOnDeath
+                    + {method} attacked
+                    + {method} begMercy
+                }
             }
 
-            interface Thief extends Enemy {}
+            package furniture {
+                interface FurnitureItem extends NonPlayingEntity {
+                    + {method} isWalkable
+                    + {method} isInteractive
+                    + {method} interact
+                }
 
-            interface Soldier extends Enemy {}
+                interface WalkableFurniture extends FurnitureItem {}
 
-            interface Wizard extends Enemy {}
+                interface ObstructingFurniture extends FurnitureItem {}
+            }
         }
     }
 }
