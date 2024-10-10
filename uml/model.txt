@@ -1,0 +1,72 @@
+@startuml
+package it.unibo.oop.relario {
+    package model {
+        package furniture {
+            interface FurnitureItem {
+                + {method} getPosition
+                + {method} isWalkable
+                + {method} isInteractive
+                + {method} interact
+            }
+
+            interface WalkableFurniture extends FurnitureItem {}
+
+            interface ObstructingFurniture extends FurnitureItem {}
+        }
+
+        package inventory {
+            interface Inventory {
+                + {method} useItem
+                + {method} getItemName
+                + {method} getItemDescription
+                + {method} dropItem
+                + {method} getItemsList
+                + {method} addItem
+                + {method} getItemsNumber
+            }
+
+            interface InventoryItem {
+                + {method} getName
+                + {method} getDescription
+                + {method} getEffect
+                + {method} isEquippable
+                + {method} getDurability
+            }
+
+            interface Weapon extends InventoryItem {}
+
+            interface Armor extends InventoryItem {}
+
+            interface Healing extends InventoryItem {}
+        }
+
+        package entities {
+            interface PlayingCharacter {
+                + {method} move
+                + {method} handleInventory
+                + {method} getPosition
+                + {method} attacked
+                + {method} getLife
+            }
+
+            Inventory *-- PlayingCharacter
+
+            interface NonPlayingCharacter {
+                + {method} interact
+            }
+
+            interface Enemy extends NonPlayingCharacter {
+                + {method} dropsOnDeath
+                + {method} attacked
+                + {method} begMercy
+            }
+
+            interface Thief extends Enemy {}
+
+            interface Soldier extends Enemy {}
+
+            interface Wizard extends Enemy {}
+        }
+    }
+}
+@enduml
