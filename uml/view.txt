@@ -1,0 +1,13 @@
+@startuml
+package it.unibo.oop.relario {
+    package view {
+        interface View {
+            + {method} mainMenu
+            + {method} optionsMenu
+            + {method} game
+            + {method} combat
+            + {method} update
+        }
+    }
+}
+@enduml
