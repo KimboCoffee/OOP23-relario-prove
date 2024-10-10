@@ -49,7 +49,7 @@ package it.unibo.oop.relario {
                 + {method} getLife
             }
 
-            Inventory *-- PlayingCharacter
+            PlayingCharacter *-- Inventory
 
             interface NonPlayingCharacter {
                 + {method} interact
