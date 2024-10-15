@@ -1,0 +1,38 @@
+@startuml
+package it.unibo.oop.relario {
+    package view {
+        interface View {
+            + {method} update
+        }
+    }
+
+    package model {
+        interface Stage {
+            + {method} update
+        }
+    }
+
+    package controller {
+        interface Controller {
+            
+        }
+
+        interface ViewObserver {
+            + {method} notify
+        }
+
+        Controller *-- ViewObserver
+    }
+
+    class Application {
+        Runs the game
+    }
+
+    Application ..> Controller
+    Application ..> View
+    Application ..> Stage
+    View ..> Controller
+    Controller --> Stage
+    Controller --> View
+}
+@enduml

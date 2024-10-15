@@ -127,24 +127,6 @@ sono comunicati al Controller che può rifletterli, se necessario sul Model. Org
 sarà possibile cambiare struttura alla GUI, ma sarà anche possibile realizzare altri tipi di View, come per esempio
 un'interfaccia da riga di comando. 
 
-\begin{figure}[h]
-\centering{}
-\includegraphics[width=\textwidth]{img/arch}
-\caption{Schema UML architetturale di GLaDOS. L'interfaccia \texttt{GLaDOS} è il controller del sistema, mentre \texttt{Input} ed \texttt{Output} sono le interfacce che mappano la view (o, più correttamente in questo specifico esempio, il boundary). Un'eventuale interfaccia grafica interattiva dovrà implementarle entrambe.}
-\label{img:goodarch}
-\end{figure}
-
-Con questa architettura, possono essere aggiunti un numero arbitrario di input ed output
-all'intelligenza artificiale.
-%
-Ovviamente, mentre l'aggiunta di output è semplice e non richiede alcuna modifica all'IA, la
-presenza di nuovi tipi di evento richiede invece in potenza aggiunte o rifiniture a GLaDOS.
-%
-Questo è dovuto al fatto che nuovi Input rappresentano di fatto nuovi elementi della business
-logic, la cui alterazione od espansione inevitabilmente impatta il controller del progetto.
-
-In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
-
 
 \section{Design dettagliato}
 

@@ -2,12 +2,14 @@
 package it.unibo.oop.relario {
     package model {
 
-        interface Room {
+        interface Stage {
             + {method} update
         }
 
-        interface Fight {
-            + {method} attack
+        interface Room extends Stage {
+        }
+
+        interface Fight extends Stage {
             + {method} inventoryHandled
             + {method} begForMercy
         }
