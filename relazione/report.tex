@@ -109,71 +109,23 @@ giocatore potrà raccogliere durante la partita).
 
 \chapter{Design}
 
-In questo capitolo si spiegano le strategie messe in campo per soddisfare i requisiti identificati nell'analisi.
-
-Si parte da una visione architetturale, il cui scopo è informare il lettore di quale sia il funzionamento dell'applicativo realizzato ad alto livello.
-%
-In particolare, è necessario descrivere accuratamente in che modo i componenti principali del sistema si coordinano fra loro.
-%
-A seguire, si dettagliano alcune parti del design, quelle maggiormente rilevanti al fine di chiarificare la logica con cui sono stati affrontati i principali aspetti dell'applicazione.
-
 \section{Architettura}
 
-Questa sezione spiega come le componenti principali del software interagiscono fra loro.
-%
-In particolare, qui va spiegato \textbf{se} e \textbf{come} è stato utilizzato il pattern
-architetturale model-view-controller (e/o alcune sue declinazioni specifiche, come entity-control-boundary).
-
-Se non è stato utilizzato MVC, va spiegata in maniera molto accurata l'architettura scelta, giustificandola in modo appropriato.
-
-Se è stato scelto MVC, vanno identificate con precisione le interfacce e classi che rappresentano i punti d'ingresso per modello, view, e controller.
-Raccomandiamo di sfruttare la definizione del dominio fatta in fase di analisi per capire quale sia l'entry point del model, e di non realizzare un'unica macro-interfaccia che, spesso, finisce con l'essere il prodromo ad una ``God class''.
-%
-Consigliamo anche di separare bene controller e model, facendo attenzione a non includere nel secondo strategie d'uso che appartengono al primo.
-
-In questa sezione vanno descritte, per ciascun componente architetturale che ruoli ricopre (due o tre ruoli al massimo), ed in che modo interagisce (ossia, scambia informazioni) con gli altri componenti dell'architettura.
-%
-Raccomandiamo di porre particolare attenzione al design dell'interazione fra view e controller: se ben progettato, sostituire in blocco la view non dovrebbe causare alcuna modifica nel controller (tantomeno nel model).
-
-\subsection*{Elementi positivi}
-\begin{itemize}
- \item Si mostrano pochi, mirati schemi UML dai quali si deduce con chiarezza quali sono le parti principali del software e come interagiscono fra loro.
- \item Si mette in evidenza se e come il pattern architetturale model-view-controller è stato applicato, anche con l'uso di un UML che mostri le interfacce principali ed i rapporti fra loro.
- \item Si discute se sia semplice o meno, con l'architettura scelta, sostituire in blocco la view: in un MVC ben fatto, controller e modello non dovrebbero in alcun modo cambiare se si transitasse da una libreria grafica ad un'altra (ad esempio, da Swing a JavaFX, o viceversa).
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item L'architettura è fatta in modo che sia impossibile riusare il modello per un software diverso che affronta lo stesso problema.
- \item L'architettura è tale che l'aggiunta di una funzionalità sul controller impatta pesantemente su view e/o modello.
- \item L'architettura è tale che la sostituzione in blocco della view impatta sul controller o, peggio ancora, sul modello.
- \item Si presentano UML caotici, difficili da leggere.
- \item Si presentano UML in cui sono mostrati elementi di dettaglio non appartenenti all'architettura, ad esempio includenti campi o con metodi che non interessano la parte di interazione fra le componenti principali del software.
- \item Si presentano schemi UML con classi (nel senso UML del termine) che ``galleggiano'' nello schema, non connesse, ossia senza relazioni con il resto degli elementi inseriti.
- \item Si presentano elementi di design di dettaglio, ad esempio tutte le classi e interfacce del modello o della view.
- \item Si discutono aspetti implementativi, ad esempio eventuali librerie usate oppure dettagli di codice.
-\end{itemize}
-
-\subsection*{Esempio}
-
-L'architettura di GLaDOS segue il pattern architetturale MVC.
-%
-Più nello specifico, a livello architetturale, si è scelto di utilizzare MVC in forma ``ECB'', ossia ``entity-control-boundary''\footnote{
-Si fa presente che il pattern ECB effettivamente esiste in letteratura come ``istanza'' di MVC, e chi volesse può utilizzarlo come reificazione di MVC.
-}.
-%
-GLaDOS implementa l'interfaccia AI, ed è il controller del sistema.
-Essendo una intelligenza artificiale, è una classe attiva.
-%
-GLaDOS accetta la registrazione di Input ed Output, che fanno parte della ``view'' di MVC, e sono il ``boundary'' di ECB.
-Gli Input rappresentano delle nuove informazioni che vengono fornite all'IA, ad esempio delle modifiche nel valore di un sensore, oppure un comando da parte dell'operatore.
-Questi input infatti forniscono eventi.
-Ottenere un evento è un'operazione bloccante: chi la esegue resta in attesa di un effettivo evento.
-Di fatto, quindi, GLaDOS si configura come entità \textit{reattiva}.
-Ogni volta che c'è un cambio alla situazione del soggetto, GLaDOS notifica i suoi Output,
-informandoli su quale sia la situazione corrente.
-%
-Conseguentemente, GLaDOS è un ``observable'' per Output.
+L'applicazione si basa sull'architettura MVC. Più nello specifico, per la realizzazione della parte Controller
+dell'architettura ci si basa sul pattern Observer: quando nella View si registra un evento, il Controller viene immediatamente
+notificato e può riflettere eventuali modifiche sul Model, con cui la View non ha interazioni dirette.
+\newline Considerando l'andamento del gioco, che procede diversamente durante i combattimenti e al di fuori
+di essi, è logico ragionare già di MVC separando le due fasi di gioco. Questo si riflette in particolare sul Model, che
+offre al Controller due entry point: l'interfaccia Room per le fasi di gioco standard, e l'interfaccia Fight per le fasi
+di combattimento. Questi due entry point avranno poi il compito di dirottare le chiamate del Controller correttamente,
+aggiungendo uno strato di separazione fra il Model e il resto dell'architettura. 
+\newline L'uso dell'architettura MVC risulta poi affine all'uso di Update Method Pattern, prevedendo per la View e per il
+Model un metodo che ne permetta l'aggiornamento. Questo metodo, invocato esternamente rispetto ai costrutti MVC, offre
+particolare flessibilità nella realizzazione della parte di View. Infatti, indifferentemente da quale sia la View, ad ogni
+"unità temporale" di gioco, sia la View che il Model saranno aggiornati, e solo quando avvengono eventi nella View questi
+sono comunicati al Controller che può rifletterli, se necessario sul Model. Organizzando così il programma, non soltanto
+sarà possibile cambiare struttura alla GUI, ma sarà anche possibile realizzare altri tipi di View, come per esempio
+un'interfaccia da riga di comando. 
 
 \begin{figure}[h]
 \centering{}
