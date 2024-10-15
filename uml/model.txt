@@ -1,17 +1,15 @@
 @startuml
 package it.unibo.oop.relario {
     package model {
-        package furniture {
-            interface FurnitureItem {
-                + {method} getPosition
-                + {method} isWalkable
-                + {method} isInteractive
-                + {method} interact
-            }
 
-            interface WalkableFurniture extends FurnitureItem {}
+        interface Room {
+            + {method} update
+        }
 
-            interface ObstructingFurniture extends FurnitureItem {}
+        interface Fight {
+            + {method} attack
+            + {method} inventoryHandled
+            + {method} begForMercy
         }
 
         package inventory {
@@ -33,39 +31,65 @@ package it.unibo.oop.relario {
                 + {method} getDurability
             }
 
-            interface Weapon extends InventoryItem {}
+            abstract class Weapon extends InventoryItem {}
 
-            interface Armor extends InventoryItem {}
+            abstract class Armor extends InventoryItem {}
 
-            interface Healing extends InventoryItem {}
+            abstract class Healing extends InventoryItem {}
+
+            Inventory o-- InventoryItem
         }
 
         package entities {
-            interface PlayingCharacter {
-                + {method} move
-                + {method} handleInventory
-                + {method} getPosition
-                + {method} attacked
-                + {method} getLife
-            }
 
-            PlayingCharacter *-- Inventory
-
-            interface NonPlayingCharacter {
+            interface NonPlayingEntity {
+                + {method} isInteractive
                 + {method} interact
+                + {method} getPosition
             }
 
-            interface Enemy extends NonPlayingCharacter {
-                + {method} dropsOnDeath
-                + {method} attacked
-                + {method} begMercy
+            package living{
+                interface PlayingCharacter {
+                    + {method} handleInventory
+                    + {method} attacked
+                    + {method} getLife
+                    + {method} update
+                }
+
+                PlayingCharacter *-- Inventory
+
+                interface NonPlayingCharacter {
+                }
+
+                interface Enemy extends NonPlayingCharacter {
+                    + {method} dropsOnDeath
+                    + {method} attacked
+                    + {method} mercyAsked
+                }
+
+                abstract class Wizard extends Enemy {}
+
+                abstract class Soldier extends Enemy {}
+                
+                abstract class Thief extends Enemy {}
             }
 
-            interface Thief extends Enemy {}
+            package furniture {
+                interface FurnitureItem {
+                    + {method} isWalkable
+                }
 
-            interface Soldier extends Enemy {}
+                abstract class WalkableFurniture extends FurnitureItem {}
 
-            interface Wizard extends Enemy {}
+                abstract class ObstructingFurniture extends FurnitureItem {}
+            }
+
+            Room *-- NonPlayingEntity
+            Room o-- PlayingCharacter
+            Fight o-- PlayingCharacter
+            Fight o-- Enemy
+            NonPlayingEntity <|-- FurnitureItem
+            NonPlayingEntity <|-- NonPlayingCharacter
         }
     }
 }
