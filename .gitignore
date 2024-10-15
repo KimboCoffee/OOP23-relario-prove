@@ -1,5 +1,6 @@
 # gradle #
 .gradle
+bin/*
 
 # vscode files *
 .vscode/*
