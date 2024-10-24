@@ -111,18 +111,20 @@ giocatore potrà raccogliere durante la partita).
 
 \section{Architettura}
 
-L'applicazione si basa sul design architetturale di MVC, nella sua declinazione più generica. Le componenti fondamentali del modello sono
-infatti un Model, il quale si occupa di rappresentare tutte le entità del dominio, offrendo un punto d'accesso per la loro modifica, una View
-che si occupa dell'interfaccia con l'utente ed è in grado di registrare gli eventi che questo genera, e un Controller che, osservando la View,
-gestisce e riflette sul Model eventuali modifiche di stato.
-\newline In questo scenario, osservando gli stage di gioco offerti dal modello, si creeranno diversi Controller, in grado di gestire i vari
-momenti dell'esecuzione (navigazione dei menù, esplorazione della mappa, combattimento), che saranno accomunati dal fatto di ricevere
-messaggi dalla View, deputata all'interfaccia con l'utente.
-\newline Anche il Model offre verso l'esterno interfacce diverse per i momenti diversi di gioco, dal momento che non tutti gli elementi
-del suo stato sono passibili di modifica in tutti i momenti del gioco (ad esempio, durante l'esplorazione non si può ricevere danno). Per questo
-motivo, ogni interfaccia del Model riceverà messaggi da entità diverse del Controller, che a loro volta saranno impegnate a osservare elementi
-diversi della View.
+Il software si basa sul modello architetturale di MVC, nella sua declinazione standard. In ogni fase
+di gioco, quindi, la View sarà destinata a gestire le interazioni di Input/Output con l'utente, e segnalerà al
+Controller il verificarsi di eventi dipendenti dall'utente (come la pressione di un tasto). Sarà quindi il Controller
+a gestire il comportamento che deriva dagli eventi registrati dalla View, ed eventualmente a notificare al Model la
+necessità di modificare il suo stato.
+\newline Il Model, quindi, deve offrire almeno un entry point al Controller per ricevere i suoi messaggi. In particolare,
+sapendo che il dominio applicativo prevede due momenti fondamentali di gioco (il combattimento e l'esplorazione) durante
+cui vengono esposti aspetti molto diversi del dominio applicativo, è logico modellare qui due entry point che mappino
+questa distinzione. In tale modo, un qualsiasi aspetto non modificabile durante una fase di gioco è completamente
+nascosto rispetto all'esterno. 
 
+\begin{figure}[H]
+	
+\end{figure}
 
 \section{Design dettagliato}
 
