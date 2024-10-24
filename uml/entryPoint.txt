@@ -1,0 +1,40 @@
+@startuml
+
+interface Room {
+
+}
+
+interface Fight {
+
+}
+
+interface PlayingCharacter {
+
+}
+
+interface NonPlayingEntity {
+
+}
+
+interface Enemy extends NonPlayingEntity {
+
+}
+
+Room o-- NonPlayingEntity
+Room o-- PlayingCharacter
+Fight o-- PlayingCharacter
+Fight o-- Enemy
+
+interface View {
+
+}
+
+interface Controller {
+
+}
+
+View -- Controller
+Controller --> Room
+Controller --> Fight
+
+@enduml
