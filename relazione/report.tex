@@ -123,8 +123,22 @@ questa distinzione. In tale modo, un qualsiasi aspetto non modificabile durante 
 nascosto rispetto all'esterno. 
 
 \begin{figure}[H]
-	
+	\centering{}
+	\includegraphics[width=\textwidth]{img/entryPoints.png}
+	\caption{Schema UML degli entry point dei rapporti fra componenti di MVC}
+	\label{img:entryPoints}
 \end{figure}
+
+Nell'immagine si evidenzia in particolare la direzionalità del rapporto fra Controller e Model. Ciò per sottolineare
+ulteriormente come quest'ultimo rimanga in attesa di ricevere i messaggi del Controller per modificare il proprio stato,
+in particolare offrendo due entry point che fanno da interfaccia a due sottoinsiemi del dominio applicativo
+solo parzialmente sovrapposti. Questo è fondamentale in termini architetturali per preservare lo stato delle entità
+del dominio, a cui non si può accedere a meno che non siano direttamente coinvolte nello scenario di gioco.
+\newline Inoltre, si vede come la View offra un solo entry point che scambia messaggi con il Controller e che non viene
+vista da nessun altro elemento dell'architettura. In particolare, strutturare in questo modo la View permette di
+realizzarla con un elevato grado di indipendenza dal resto del sistema. In tale modo è possibile collegare al Controller
+una qualsiasi interfaccia di Input/Output indipendentemente dalla sua tecnica implementativa, aumentando quindi
+la mantenibilità e la modificabilità del software realizzato. 
 
 \section{Design dettagliato}
 
