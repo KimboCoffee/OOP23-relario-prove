@@ -33,7 +33,7 @@ interface Controller {
 
 }
 
-View --> Controller
+View -- Controller
 Controller --> Room
 Controller --> Fight
 
