@@ -68,7 +68,7 @@ Il dominio applicativo dell’applicazione viene modellato in ogni momento dal c
 	\centering{}
 	\includegraphics[width=\textwidth]{img/model.png}
 	\caption{Schema UML del dominio applicativo}
-	\label{img/model-image}
+	\label{img:model}
 \end{figure}
 
 
@@ -76,34 +76,23 @@ Il dominio applicativo dell’applicazione viene modellato in ogni momento dal c
 
 \section{Architettura}
 
-Il software si basa sul modello architetturale di MVC, nella sua declinazione standard. In ogni fase
-di gioco, quindi, la View sarà destinata a gestire le interazioni di Input/Output con l'utente, e segnalerà al
-Controller il verificarsi di eventi dipendenti dall'utente (come la pressione di un tasto). Sarà quindi il Controller
-a gestire il comportamento che deriva dagli eventi registrati dalla View, ed eventualmente a notificare al Model la
-necessità di modificare il suo stato.
-\newline Il Model, quindi, deve offrire almeno un entry point al Controller per ricevere i suoi messaggi. In particolare,
-sapendo che il dominio applicativo prevede due momenti fondamentali di gioco (il combattimento e l'esplorazione) durante
-cui vengono esposti aspetti molto diversi del dominio applicativo, è logico modellare qui due entry point che mappino
-questa distinzione. In tale modo, un qualsiasi aspetto non modificabile durante una fase di gioco è completamente
-nascosto rispetto all'esterno. 
+Il software si basa sull’architettura MVC nella sua declinazione standard. In particolare, ogni elemento dell’architettura offre un unico entry point verso l’esterno, in modo che gli accessi alle sue funzionalità possano essere uniformi e consistenti, offrendo un ulteriore grado di incapsulamento.
+%
+\newline Il Model offre come proprio entry point l’interfaccia Room, che fa da scenario base per lo svolgimento della fase di esplorazione del gioco. All’interno della stanza infatti, sono presenti tutte le entità, che vengono modificate ad ogni tick del motore fisico tramite un metodo offerto dalla stessa Room, deputata a controllare anche se le singole entità siano in grado di muoversi al suo interno. 
+%
+\newline Il Controller, che conserva il riferimento alla stanza in cui attualmente si trova il gioco, gestisce al suo interno le transizioni di stato per le varie fasi del gameplay, interrogando la View per mostrare le interfacce corrette e richiedendo al Model eventuali modifiche. Il Controller è anche responsabile della temporizzazione dell’aggiornamento del motore di gioco, e della traduzione delle entità del Model in elementi rappresentabili correttamente dalla View.
+%
+\newline La View offre un entry point centrale da cui è possibile richiedere di mostrare le varie interfacce, o l’accesso ai loro riferimenti per chiamare procedure proprie di tali istanze. Nell’architettura realizzata, la View agisce come elemento passivo ricevendo i dati da mostrare dal Controller tramite opportune interrogazioni. La gestione dell’input permette alla View di comunicare particolari eventi al Controller, che li gestirà e ne rifletterà eventualmente gli effetti sul Model.
+%
+\newline Nella realizzazione dell’architettura MVC, modificare la View non impatta minimamente il Model, dal momento che è solamente il Controller a dialogare con questa componente. Dall’altro lato, il Controller potrebbe essere impattato da una modifica della View radicale (come per esempio trasformare la GUI attiva in un’interfaccia reattiva, oppure la rimozione dei suoni), mentre non sarebbe impattato da modifiche nelle tecniche implementative della GUI - come per esempio una modifica della libreria grafica - a patto che sia in grado di rispettare il contratto stabilito dalle due interfacce (ad esempio accettare gli stessi tipi di chiamate parametrizzate).
+
 
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=\textwidth]{img/entryPoints.png}
+	\includegraphics[width=\textwidth]{img/mvc.png}
 	\caption{Schema UML degli entry point dei rapporti fra componenti di MVC}
-	\label{img:entryPoints}
+	\label{img:mvc}
 \end{figure}
-
-Nell'immagine si evidenzia in particolare la direzionalità del rapporto fra Controller e Model. Ciò per sottolineare
-ulteriormente come quest'ultimo rimanga in attesa di ricevere i messaggi del Controller per modificare il proprio stato,
-in particolare offrendo due entry point che fanno da interfaccia a due sottoinsiemi del dominio applicativo
-solo parzialmente sovrapposti. Questo è fondamentale in termini architetturali per preservare lo stato delle entità
-del dominio, a cui non si può accedere a meno che non siano direttamente coinvolte nello scenario di gioco.
-\newline Inoltre, si vede come la View offra un solo entry point che scambia messaggi con il Controller e che non viene
-vista da nessun altro elemento dell'architettura. In particolare, strutturare in questo modo la View permette di
-realizzarla con un elevato grado di indipendenza dal resto del sistema. In tale modo è possibile collegare al Controller
-una qualsiasi interfaccia di Input/Output indipendentemente dalla sua tecnica implementativa, aumentando quindi
-la mantenibilità e la modificabilità del software realizzato. 
 
 \section{Design dettagliato}
 
@@ -112,27 +101,18 @@ la mantenibilità e la modificabilità del software realizzato.
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
-Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
+Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit e si sono realizzati test su quasi tutte le classi di Model e Controller. Ciò è stato fatto per garantire il corretto funzionamento dell’applicazione, e per avere la certezza che gli eventuali problemi riscontrati durante il gioco non fossero dovuti a mancanze di logica implementativa, quanto a problematiche di visualizzazione. 
 %
-Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
+\newline La View, invece, è stata testata manualmente in fase di sviluppo, e poi in fase di collaudo del software, perché personalmente non siamo riusciti ad approfondire le dinamiche di testing automatizzato che avrebbero permesso di testare automaticamente anche quella parte del software.
 %
-Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
-
-\subsection*{Elementi positivi}
+\newline In linea generale, gli aspetti su cui il testing si è maggiormente soffermato sono stati i seguenti:
 
 \begin{itemize}
- \item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
- \item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Non si realizza alcun test automatico.
- \item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
- \item Si descrive un testing di tipo manuale in maniera prolissa.
- \item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
- \item Si descrivono test non presenti nei sorgenti del progetto.
- \item I test, quando eseguiti, falliscono.
+	\item Generazione della mappa, movimento e interazioni al suo interno. Particolarmente, si è verificato che il movimento e le interazioni non generassero comportamenti imprevisti e che si riflettessero correttamente sugli aggiornamenti del Model.
+	\item Combattimento. In particolare, il testing si concentra sul mantenimento dell’ordine dei turni per evitare comportamenti imprevisti, e sul corretto inserimento in inventario del bottino dei nemici sconfitti.
+	\item Protagonista. In particolare, si è testato il sistema di gestione della vita del protagonista, così come del suo inventario. Nei controlli sull’inventario, si è verificato il corretto utilizzo degli oggetti curativi, così come delle armi e armature, per garantire comportamenti consistenti in fase di combattimento.
+	\item Input utente. Si sono testati i Controller che svolgono la funzione di Observer, per garantire la corretta gestione degli input.
+	\item Creazione delle istanze. Avendo fatto largo uso del Pattern Factory, si è deciso di testare i metodi di generazione degli oggetti per verificare l’effettiva consistenza delle istanze create e garantire prevedibilità in fase di gioco.
 \end{itemize}
 
 \section{Note di sviluppo}
