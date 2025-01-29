@@ -96,7 +96,33 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \section{Design dettagliato}
 
+\subsection{Kimi Osti}
+Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati dalla Gang of Four, anche al libro \cite{nystrom2014}.
 
+\subsubsection{Input da tastiera nella fase di esplorazione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/observer-gameview.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:observer-gameview}
+\end{figure}
+\paragraph{Problema} Il giocatore comanda il personaggio principale tramite tastiera, e gli input devono essere catturati dal GameController.
+\paragraph{Soluzione} La collaborazione fra classi viene realizzata grazie al pattern Observer. In particolare, la classe GameView fa da observable, e tramite il KeyListener registrato trasmette i propri eventi al GameController, che fa da observer. In particolare, in questa soluzione viene sfruttato un GameKeyListener che implementa l'interfaccia KeyListener, filtrando i tasti di interesse per il gioco e traducendoli in un particolare Event, enumerazione definita all'interno del progetto per tracciare gli eventi rilevanti all'applicazione. Grazie a questa enumerazione, gli eventi sono trattati ad alto livello e si permette facilmente estendibilità verso la funzionalità opzionale della riassegnabilità dei tasti, a patto di permettere al GameKeyListener di modificare la mappatura da evento di pressione del tasto ed Event.
+
+\subsubsection{Creazione e gestione dei componenti per l'interfaccia di esplorazione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/factory-gameview.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:factory-gameview.png}
+\end{figure}
+\paragraph{Problema} Nell'interfaccia della fase di esplorazione, si deve renderizzare il contenuto della mappa, oltre a un banner contenente i comandi nella parte superiore dello schermo e un banner con eventuali messaggi di interazione nella fase inferiore. Ciò significa avere diversi pannelli, tutti accomunati dallo sfondo nero, e di cui i due superiori devono contenere eventualmente testo, mentre quelli centrali delle scene rappresentate dalla sovrapposizione di BackgroundTile e ForegroundTile
+\paragraph{Soluzione} Per alleggerire l'implementazione di GameView e renderla più comprensibile, si è creata una helper class in grado di gestire i componenti dell'interfaccia. In particolare, si sottolineano i metodi che fungono da Factory, ovvero i tre metodi getGamePanel, getBackgroundTile e getForegroundTile che vengono usati per creare i componenti che andranno poi a formare l'interfaccia grafica nel suo complesso. Vengono inoltre definiti due metodi per ridimensionare i componenti e per mostrare il testo contenuto al loro interno.
+
+\subsubsection{Individuazione delle texture}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/locator-game.png}
 
 \chapter{Sviluppo}
 
@@ -158,64 +184,13 @@ Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
 \appendix
 \chapter{Guida utente}
 
-Capitolo in cui si spiega come utilizzare il software. Nel caso in cui il suo uso sia del tutto
-banale, tale capitolo può essere omesso.
-%
-A tal riguardo, si fa presente agli studenti che i docenti non hanno mai utilizzato il software
-prima, per cui aspetti che sembrano del tutto banali a chi ha sviluppato l'applicazione possono non
-esserlo per chi la usa per la prima volta.
-%
-Se, ad esempio, per cominciare una partita con un videogioco è necessario premere la barra
-spaziatrice, o il tasto ``P'', è necessario che gli studenti lo segnalino.
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
- \item Si istruisce in modo semplice l'utente sull'uso dell'applicazione, eventualmente facendo uso di schermate e descrizioni.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Si descrivono in modo eccessivamente minuzioso tutte le caratteristiche, anche minori, del software in oggetto.
- \item Manca una descrizione che consenta ad un utente qualunque di utilizzare almeno le funzionalità primarie dell'applicativo.
-\end{itemize}
-
-\chapter{Esercitazioni di laboratorio}
-
-In questo capitolo ciascuno studente elenca gli esercizi di laboratorio che ha svolto
-(se ne ha svolti),
-elencando i permalink dei post sul forum dove è avvenuta la consegna.
-%
-Questa sezione potrebbe essere processata da strumenti automatici,
-per cui link a oggetti diversi dal permalink della consegna,
-errori nell'email o nel nome del laboratorio possono portare ad ignorare alcune consegne,
-si raccomanda la massima precisione.
-
-\section*{Esempio}
-
-\subsection{paolino.paperino@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
-\end{itemize}
-
-\subsection{paperon.depaperoni@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 05: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 07: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 08: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 10: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 11: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
-\end{itemize}
-
+Durante il gioco l'utente deve attraversare delle stanze, in cui deve completare eventuali quest.
+\newline Nei menu, come nel combattimento, l'input viene accettato tramite mouse, con dei clic sui bottoni che rappresentano l'azione desiderata.
+\newline Durante l'esplorazione, il giocatore si sposta con WASD, interagisce con la cella che guarda con E e apre l'inventario con I.
+\newline Per superare ciascuna stanza, deve completare la quest(se presente) che gli viene presentata dall'NPC fermo all'entrata. Dopo aver completato la quest, deve raggiungere il tappeto situato a destra della stanza, e interagire da sopra la casella al suo entremo destro per proseguire nella stanza successiva.
+\newline All'interno dell'inventario, gli oggetti vengono scelti con le frecce verticali, e si possono equipaggiare con ENTER oppure scartare con BACKSPACE. Un oggetto che non abbia effetto, quando usato, viene "consumato" e non risulta quindi piu' disponibile.
 
 \bibliographystyle{alpha}
-\bibliography{13-template}
+\bibliography{report}
 
 \end{document}
