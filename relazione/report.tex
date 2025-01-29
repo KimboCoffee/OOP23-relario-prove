@@ -11,7 +11,7 @@
 
 \usepackage[italian]{cleveref}
 
-\title{Relazione per\\``Programmazione ad Oggetti''}
+\title{Relario: Tales of Relano\\Progetto per il corso di\\``Programmazione ad Oggetti''}
 
 \author{Lorenzo Cinelli, Mihai Mazuru, Kimi Osti, Sara Panfini}
 \date{\today}
@@ -21,84 +21,27 @@
 
 \maketitle
 
-\begin{abstract}
-
-\end{abstract}
-
 \tableofcontents
 
 \chapter{Analisi}
 
 
-\section{Descrizione}
+\section{Descrizione e requisiti}
 
-Il software è un videogioco 2D a vista dall'alto. Si concentra, come Gioco di Ruolo, sulle avventure di un protagonista
-che deve superare alcune stanze di un castello, ognuna caratterizzata da una prova o da un minigioco, per ereditare
-il trono del suo regno.
+Il software realizzato è un videogioco 2D con vista dall’alto. Il suo svolgimento gira attorno a un personaggio principale, controllato dall’utente, che deve attraversare le stanze di un castello per raggiungere lo scontro finale con il Re, di cui deve conquistare il trono.
 %
-Durante la partita, si incontreranno dei personaggi non giocanti, con cui sarà possibile interagire. Essi potranno
-essere alleati, e quindi fornire aiuto per le missioni, neutri, oppure nemici. 
+\newline Durante l’esplorazione delle stanze all’utente potranno essere affidate delle quest da completare per poter procedere correttamente.
 %
-In mappa ci saranno anche alcuni elementi di arredo con cui si potrà interagire: in alcuni di essi si potrebbero
-nascondere nemici, in altri invece oggetti collezionabili e mantenibili in inventario.
+\newline Inoltre, gli verranno presentato delle stanze quasi completamente interattive. In particolare, ci saranno dei personaggi non giocanti (neutri, alleati o nemici) che potranno, al momento dell’interazione, mostrare un messaggio, donare degli oggetti oppure ingaggiare un combattimento. Inoltre, sarà possibile interagire con gran parte degli elementi di arredo presenti in stanza, tra cui elementi come armature o vasi contenenti oggetti collezionabili oppure tappeti o botole che possono celare al loro interno nemici.
 %
-Interagendo coi nemici, si potrà ingaggiare un combattimento, che sarà gestito a turni e offrirà diverse opzioni
-decisionali al giocatore. Al termine del combattimento, se si sconfigge il nemico, si potranno ottenere oggetti
-collezionabili come ricompensa. 
-
-\section{Modello del Dominio}
-
-L'applicazione modella, nel suo dominio, tutte le entità - viventi e non - del gioco.
-%
-Partendo dalle entità viventi, dovrà modellare il protagonista, con i suoi comportamenti controllati dal giocatore, 
-così come i personaggi non giocanti, che saranno da distinguere fra ostili e pacifici. Fra i personaggi ostili,
-si distinguono alcune categorie di nemici, che avranno ognuna le proprie caratteristiche.
-%
-\begin{figure}[H]
-	\centering{}
-	\includegraphics[width=\textwidth]{img/LivingBeings.png}
-	\caption{Schema UML dell'analisi delle creature viventi all'interno del gioco}
-	\label{img:livingBeingsAnalysis}
-\end{figure}
-%
-Si introducono poi gli oggetti di arredo, ovvero tutti quegli elementi che potranno popolare le stanze di gioco.
-Fra questi si distinguono principalmente gli oggetti calpestabili (come tappeti o fiori) e non calpestabili (come vasi
-e armature). Inoltre, si vedranno distinti gli oggetti interattivi e non. Ogni arredo potrà combinare liberamente le
-caratteristiche di calpestabilità e interattività.
-%
-\begin{figure}[H]
-	\centering{}
-	\includegraphics[width=\textwidth]{img/FurnitureItems.png}
-	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-	\label{img:furnitureAnalysis}
-\end{figure}
-%
-Infine, si modellano gli oggetti dell'inventario, che si dividono in 4 macro categorie: armi (che aumentano il
-danno inflitto dal giocatore), armature (che limitano il danno subito dal giocatore), curativi (che vengono consumati
-a piacere dal giocatore e ne ripristinano la salute) e collezionabili (che sono oggetti non utilizzabili che il
-giocatore potrà raccogliere durante la partita).
-%
-\begin{figure}[H]
-	\centering{}
-	\includegraphics[width=\textwidth]{img/InventoryItems.png}
-	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-	\label{img:inventoryItemsAnalysis}
-\end{figure}
-%
-
-\section{Requisiti}
+\newline Il combattimento si svolge per turni. Ad ogni turno, il giocatore può decidere se attaccare o chiedere pietà al nemico, così come può navigare il suo inventario e usare oggetti senza perdere il diritto al turno. Il nemico, in caso venga chiesta pietà, potrebbe concederla oppure rifiutarla e attaccare immediatamente il giocatore. 
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
-	\item Il software sviluppa un gioco 2D con vista dall'alto, in cui il protagonista, controllato dall'utente,
-	deve superare alcune stanze (con le relative sfide) per raggiungere il suo obiettivo finale, ovvero lo scontro
-	col Re.
-	\item Durante l'esplorazione delle stanze si potranno incontrare dei personaggi, nemici o amici, con cui sarà 
-	possibile interagire. Con i personaggi amici l'interazione sarà un dialogo, mentre con i nemici interagire 
-	significherà aprire la modalità di combattimento.
-	\item Nella modalità di combattimento il software è organizzato a turni. Ad ogni turno, il giocatore avrà varie 
-	possibilità: attaccare, consultare l'inventario ed eventualmente utilizzarne gli elementi, oppure chiedere pietà 
-	al nemico.
+	\item I nemici all'interno del gioco saranno di varie tipologie, e dovranno offrire un comportamento variabile all'utente per quanto riguarda le richieste di pietà;
+	\item L'arredo delle stanze viene generato casualmente garantendo l'assenza di sovrapposizioni, e le diverse tipologie di elementi di arredo devono offrire diversi scenari di interazione;
+	\item Le quest devono essere di diverse tipologie e richiedere diverse azioni da parte del giocatore;
+	\item Il combattimento finale deve poter offrire una scelta al giocatore, che sarà in grado di avviare finali diversi.
 \end{itemize}
 
 \subsubsection{Requisiti non funzionali}
@@ -107,38 +50,49 @@ giocatore potrà raccogliere durante la partita).
 	\item Il software sarà portabile su tutti i maggiori sistemi operativi.
 \end{itemize}
 
+
+\section{Modello del Dominio}
+
+Il dominio applicativo dell’applicazione viene modellato in ogni momento dal concetto di stanza, ovvero il “container” all’interno di cui si svolge la fase centrale del gioco. All’interno della stanza, oltre al personaggio principale, si trovano altre entità, che possono essere personaggi viventi non giocanti (nemici o generici NPC) oppure elementi di arredo. Il giocatore può possedere nel suo inventario diversi oggetti, che vengono anch’essi modellati come entità. In questo scenario, diventa possibile gestire tramite la stanza e le informazioni che ogni entità offre l’intero modello del dominio, estraendo le istanze di interesse per gestire le situazioni contingenti come il combattimento. 
+%
+\newline Per quanto riguarda l’arredamento, le entità si dividono in tre tipologie fondamentali: arredamento interattivo, che blocca il movimento ma permette interazione, e può rilasciare un oggetto che il giocatore aggiungerà al proprio inventario al momento dell’interazione; arredamento calpestabile, che non ostruisce il movimento e permette interazione, ma può nascondere un nemico con cui viene avviato il combattimento non appena vi si interagisce; arredamento passivo, che ostacola il movimento e non permette alcun tipo di interazione. 
+%
+\newline Per quanto riguarda i nemici, ad ognuno viene associato un tipo, che ne definisce il livello di difficoltà. Quando viene sconfitto, un nemico rilascia un oggetto di inventario che il giocatore aggiungerà al proprio inventario al momento della vittoria. Ad ogni nemico viene poi associato un comportamento in caso di richieste di pietà, indipendente dal tipo e proprio di ogni singola istanza. In caso il giocatore venga risparmiato dal nemico, non ottiene il suo bottino.
+%
+\newline Gli NPC modellano tutti i personaggi non ostili all’interno del gioco, con cui sarà possibile interagire in ogni momento. Anche loro possono rilasciare oggetti di inventario al momento dell’interazione, oppure mostrare messaggi, che potranno o meno aiutare il giocatore a completare la quest.
+%
+\newline Il personaggio principale, che si muove nella mappa e interagisce con il resto delle entità presenti, può portare con sé alcuni oggetti di inventario ottenuti interagendo con le altre entità. Questi oggetti possono essere di vario tipo, e a seconda della tipologia offrire diversi effetti (cura, aumento del danno per le armi e protezione per le armature, oppure nessuno per gli oggetti collezionabili). Le armi e le armature, per essere effettive, devono essere equipaggiate, e hanno una durabilità limitata. Al momento dell’uso dell’oggetto, il suo effetto viene attivato sul giocatore. Un oggetto qualsiasi può anche essere scartato per liberare spazio nell’inventario, che ha capacità limitata.
+
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/model.png}
+	\caption{Schema UML del dominio applicativo}
+	\label{img:model}
+\end{figure}
+
+
 \chapter{Design}
 
 \section{Architettura}
 
-Il software si basa sul modello architetturale di MVC, nella sua declinazione standard. In ogni fase
-di gioco, quindi, la View sarà destinata a gestire le interazioni di Input/Output con l'utente, e segnalerà al
-Controller il verificarsi di eventi dipendenti dall'utente (come la pressione di un tasto). Sarà quindi il Controller
-a gestire il comportamento che deriva dagli eventi registrati dalla View, ed eventualmente a notificare al Model la
-necessità di modificare il suo stato.
-\newline Il Model, quindi, deve offrire almeno un entry point al Controller per ricevere i suoi messaggi. In particolare,
-sapendo che il dominio applicativo prevede due momenti fondamentali di gioco (il combattimento e l'esplorazione) durante
-cui vengono esposti aspetti molto diversi del dominio applicativo, è logico modellare qui due entry point che mappino
-questa distinzione. In tale modo, un qualsiasi aspetto non modificabile durante una fase di gioco è completamente
-nascosto rispetto all'esterno. 
+Il software si basa sull’architettura MVC nella sua declinazione standard. In particolare, ogni elemento dell’architettura offre un unico entry point verso l’esterno, in modo che gli accessi alle sue funzionalità possano essere uniformi e consistenti, offrendo un ulteriore grado di incapsulamento.
+%
+\newline Il Model offre come proprio entry point l’interfaccia Room, che fa da scenario base per lo svolgimento della fase di esplorazione del gioco. All’interno della stanza infatti, sono presenti tutte le entità, che vengono modificate ad ogni tick del motore fisico tramite un metodo offerto dalla stessa Room, deputata a controllare anche se le singole entità siano in grado di muoversi al suo interno. 
+%
+\newline Il Controller, che conserva il riferimento alla stanza in cui attualmente si trova il gioco, gestisce al suo interno le transizioni di stato per le varie fasi del gameplay, interrogando la View per mostrare le interfacce corrette e richiedendo al Model eventuali modifiche. Il Controller è anche responsabile della temporizzazione dell’aggiornamento del motore di gioco, e della traduzione delle entità del Model in elementi rappresentabili correttamente dalla View.
+%
+\newline La View offre un entry point centrale da cui è possibile richiedere di mostrare le varie interfacce, o l’accesso ai loro riferimenti per chiamare procedure proprie di tali istanze. Nell’architettura realizzata, la View agisce come elemento passivo ricevendo i dati da mostrare dal Controller tramite opportune interrogazioni. La gestione dell’input permette alla View di comunicare particolari eventi al Controller, che li gestirà e ne rifletterà eventualmente gli effetti sul Model.
+%
+\newline Nella realizzazione dell’architettura MVC, modificare la View non impatta minimamente il Model, dal momento che è solamente il Controller a dialogare con questa componente. Dall’altro lato, il Controller potrebbe essere impattato da una modifica della View radicale (come per esempio trasformare la GUI attiva in un’interfaccia reattiva, oppure la rimozione dei suoni), mentre non sarebbe impattato da modifiche nelle tecniche implementative della GUI - come per esempio una modifica della libreria grafica - a patto che sia in grado di rispettare il contratto stabilito dalle due interfacce (ad esempio accettare gli stessi tipi di chiamate parametrizzate).
+
 
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=\textwidth]{img/entryPoints.png}
+	\includegraphics[width=\textwidth]{img/mvc.png}
 	\caption{Schema UML degli entry point dei rapporti fra componenti di MVC}
-	\label{img:entryPoints}
+	\label{img:mvc}
 \end{figure}
-
-Nell'immagine si evidenzia in particolare la direzionalità del rapporto fra Controller e Model. Ciò per sottolineare
-ulteriormente come quest'ultimo rimanga in attesa di ricevere i messaggi del Controller per modificare il proprio stato,
-in particolare offrendo due entry point che fanno da interfaccia a due sottoinsiemi del dominio applicativo
-solo parzialmente sovrapposti. Questo è fondamentale in termini architetturali per preservare lo stato delle entità
-del dominio, a cui non si può accedere a meno che non siano direttamente coinvolte nello scenario di gioco.
-\newline Inoltre, si vede come la View offra un solo entry point che scambia messaggi con il Controller e che non viene
-vista da nessun altro elemento dell'architettura. In particolare, strutturare in questo modo la View permette di
-realizzarla con un elevato grado di indipendenza dal resto del sistema. In tale modo è possibile collegare al Controller
-una qualsiasi interfaccia di Input/Output indipendentemente dalla sua tecnica implementativa, aumentando quindi
-la mantenibilità e la modificabilità del software realizzato. 
 
 \section{Design dettagliato}
 
@@ -147,27 +101,18 @@ la mantenibilità e la modificabilità del software realizzato.
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
-Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
+Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit e si sono realizzati test su quasi tutte le classi di Model e Controller. Ciò è stato fatto per garantire il corretto funzionamento dell’applicazione, e per avere la certezza che gli eventuali problemi riscontrati durante il gioco non fossero dovuti a mancanze di logica implementativa, quanto a problematiche di visualizzazione. 
 %
-Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
+\newline La View, invece, è stata testata manualmente in fase di sviluppo, e poi in fase di collaudo del software, perché personalmente non siamo riusciti ad approfondire le dinamiche di testing automatizzato che avrebbero permesso di testare automaticamente anche quella parte del software.
 %
-Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
-
-\subsection*{Elementi positivi}
+\newline In linea generale, gli aspetti su cui il testing si è maggiormente soffermato sono stati i seguenti:
 
 \begin{itemize}
- \item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
- \item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Non si realizza alcun test automatico.
- \item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
- \item Si descrive un testing di tipo manuale in maniera prolissa.
- \item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
- \item Si descrivono test non presenti nei sorgenti del progetto.
- \item I test, quando eseguiti, falliscono.
+	\item Generazione della mappa, movimento e interazioni al suo interno. Particolarmente, si è verificato che il movimento e le interazioni non generassero comportamenti imprevisti e che si riflettessero correttamente sugli aggiornamenti del Model.
+	\item Combattimento. In particolare, il testing si concentra sul mantenimento dell’ordine dei turni per evitare comportamenti imprevisti, e sul corretto inserimento in inventario del bottino dei nemici sconfitti.
+	\item Protagonista. In particolare, si è testato il sistema di gestione della vita del protagonista, così come del suo inventario. Nei controlli sull’inventario, si è verificato il corretto utilizzo degli oggetti curativi, così come delle armi e armature, per garantire comportamenti consistenti in fase di combattimento.
+	\item Input utente. Si sono testati i Controller che svolgono la funzione di Observer, per garantire la corretta gestione degli input.
+	\item Creazione delle istanze. Avendo fatto largo uso del Pattern Factory, si è deciso di testare i metodi di generazione degli oggetti per verificare l’effettiva consistenza delle istanze create e garantire prevedibilità in fase di gioco.
 \end{itemize}
 
 \section{Note di sviluppo}
