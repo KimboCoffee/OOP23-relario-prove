@@ -96,6 +96,95 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \section{Design dettagliato}
 
+\subsection{Mazuru Mihai}
+
+\subsubsection{Furniture}
+\textbf{Problema}: Nella modellazione degli oggetti di arredo mi sono imbattuto nel problema 
+di come realizzare diverse tipologie di arredi senza ripetizioni di codice. Questi oggetti 
+sono caratterizzati da un nome, una descrizione, una posizione e un tipo, e invece si differenziano 
+per le seguenti proprietà: attraversabilità e interattività.
+
+\textbf{Soluzione}: Ho optato per l'implementazione del pattern \textit{Template Method}. 
+L'ho applicato realizzando una classe astratta \textit{Furniture} che contiene la logica comune a 
+tutti gli oggetti di arredo (con i corrispettivi getter) e i metodi astratti \textit{isWalkable()} e 
+\textit{isInteractive()}. L'implementazione di questi metodi viene lasciata ad ogni sottoclasse.
+Difatti la classe \textit{WalkableFurniture} definisce oggetti di arredo con i quali si può interagire e
+che non ostacolano il passaggio delle entità viventi, mentre la classe \textit{ObstructingFurniture} 
+definisce oggetti con caratteristiche diametralmente opposte (bloccanti e non interattivi) e 
+invece la classe \textit{InteractiveFurniture} definisce oggetti con caratteristiche intermedie (bloccanti ed interattivi).
+
+\newline La soluzione scelta consente inoltre l'estendibilità, facilitando la creazione di una nuova
+ipotetica classe con oggetti attraversabili e non interattivi.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/template.png}
+	\caption{Schema UML dell'applicazione del pattern Template Method alla gerarchia delle Furniture.}
+	\label{img:template}
+\end{figure}
+
+\textbf{Problema}: La creazione dei diversi oggetti di arredo attraverso una semplice "new" comporterebbe
+l'aggiunta di dipendenze al nostro codice, rendendolo più difficile e tedioso da testare, 
+complicando la sua estendibilità ed eventualmente la sua manuntenzione. 
+
+\textbf{Soluzione}: Proprio per questo ho scelto di utilizzare il pattern \textit{Simple Factory} per la 
+creazione degli arredi. Ho realizzato un'interfaccia che contiene i metodi per la creazione dei diversi
+tipi di arredi. Questi metodi vengono implementati dalla sua sottoclasse, la quale è in grado di creare 
+oggetti randomici, specifici oppure solo di un determinato tipo. Gli unici parametri richiesti sono il tipo
+e la posizione dell'arredo, mentre le altre caratterische come il nome e la descrizione vengono gestite
+internamente alla factory attraverso una mappa che contiene per ogni tipo diverso di arredo una descrizione unica.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/furnitureSimpleFactory.png}
+	\caption{Schema UML dell'applicazione del patter Simple Factory per la creazione di Furniture.}
+	\label{img:furnitureSimpleFactory}
+\end{figure}
+
+\subsubsection{Gestione panelli di gioco}
+
+\textbf{Problema}: Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
+era proprio quello di capire come gestire nel migliore dei modi il passaggio da una pannello di gioco ad 
+un altro.
+
+\textbf{Soluzione}: Per risolvere questo problema il gruppo ha scelto di creare una \textit{MainView} che
+si sarebbe occupata della creazione del frame, della creazione dei vari pannelli di gioco e
+delle transizione da un pannello all'altro.
+Io mi sono occupato dell'implementazione e ho optato per l'utilizzo di \textit{CardLayout}, un manager layout
+che permette di associare ad ogni pannello una stringa di testo, attraverso la quale sarà possibile far emergere
+dalla "pila di carte" il pannello desiderato. L'invocazione del metodo per far emergere un certo pannello viene effettuata
+dal corrispondente controller.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/mainView.png}
+	\caption{Schema UML che rappresenta MainView, alcuni pannelli di gioco, alcuni controller del gioco e le loro interazioni.}
+	\label{img:mainView}
+\end{figure}
+
+\subsubsection{Gestione combattimento}
+
+\textbf{Problema}: Il combattimento è uno dei momenti più importanti del gioco e la sua gestione 
+in modo ottimale è fondamentale per garantire una gradevole esprienza all'utente. La gestione dei turni e la 
+gestione delle azioni di combattimenti sono aspetti importanti per il raggiungimento di questo obiettivo.
+
+\textbf{Soluzione}: Le possibili scelte all'interno della fase di combattimento sono: attaccare, chiedere pietà oppure
+aprire l'inventario. Queste possibili azioni vengono gestite tramite un Action Listener che notifica
+il \textit{CombatController}. Il controller in questione attraverso uno switch, al quale si accede solo se l'azione avviata
+precedentemente è finita, delega la gestione dell'azione agli appositi metodi privati oppure delega il lavoro al controller
+dell'inventario (nel caso si scelga di aprire l'inventario). 
+I turni invece vengono gestiti in maniera automatica. Una volta che il giocatore ha attaccato, il nemico, se è ancora in vita, 
+attacca subito a sua volta. L'unico caso in cui è il nemico ad attaccare per primo è quando al giocare viene negata
+la richiesta di pietà e di conseguenza salta il turno.
+Sono stati aggiunti dei \textit{Timer} per non accavallare le varie azioni e degli aggiornamenti testuli a fine di ogni azione, in modo da
+rendere il combattimento più intrattenete. Questi aggiornamenti testuali, insieme alle caratteristiche dei combattenti, vengono
+rese visibili e aggiornate attraverso una chiamata di "update" alla \textit{CombatView}. 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/combatController.png}
+	\caption{Schema UML che rappresenta il CombatController e le sue principali relazioni.}
+	\label{img:combatController}
+\end{figure}
+
 \subsection{Kimi Osti}
 Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati dalla Gang of Four, anche al libro \cite{nystrom2014}.
 
@@ -163,9 +252,35 @@ Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blame/d67fe167022e0
 \subsubsection{Codice reperito online}
 Per la realizzazione della classe BackgroundTile (Permalink:  \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/BackgroundTile.java}) si è preso spunto da \href{https://coderanch.com/t/336043/java/Images-top}{questa pagina di forum online}.
 
+\subsection{Mazuru Mihai}
+\begin{itemize}
+	\item \textbf{Stream}: Utilizzato per il recuperare il valore corrispondente ad una nota chiave in una mappa.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/MainViewImpl.java#L84-L95}
+    
+	\item \textbf{Stream}: Utilizzato per filtrare gli arredamenti in base al loro tipo (Walkable, Obstructing, Interactive).
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/entities/furniture/impl/FurnitureFactoryImpl.java#L128-L131}
+
+	\item \textbf{Lambda function}: Utilizzato per l’Action Listener di JButton.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/MenuView.java#L87-L109}
+
+	\item \textbf{Optional}: Utilizzo per gestire i nemici all'interno degli arredamenti.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/entities/furniture/impl/WalkableFurnitureImpl.java#L12-L73}
+\end{itemize}
+
+\subsubsection{Codice preso da altri}
+\textbf{Modellazione molteplici menu}: Utilizzo model per gestire molteplici menu.
+Permalink \url{https://github.com/luca-casadei/OOP23-the-exiled/blob/3980cb23272808019d315d20593faae31b543f89/src/main/java/unibo/exiled/model/menu/MenuModelImpl.java#L6-L33}
+
 \chapter{Commenti finali}
 
 \section{Autovalutazione e lavori futuri}
+
+\subsection{Mazuru Mihai}
+Spero che il mio contributo all'interno del team sia stato significativo. All'inizio, a causa dell'ansia per questo progetto, ho avuto difficoltà a essere d'aiuto nelle fasi decisionali. Tuttavia, con il tempo, man mano che acquisivo maggiore confidenza con il progetto e con le persone con cui lavoravo, sono riuscito a sbloccarmi e a mettermi in gioco.
+
+Mi auguro inoltre di aver trasmesso agli altri membri del gruppo la mia determinazione, dimostrando il mio impegno nel partecipare a ogni incontro e contribuendo attivamente alla realizzazione del MainController e della MainView.
+
+Per quanto riguarda il resto del team, li considero colleghi straordinari e persone sempre disponibili, sia nel fornire chiarimenti che nel darmi una mano quando ne avevo bisogno.
 
 \subsection{Kimi Osti}
 Personalmente, questo è stato il primo progetto di gruppo di queste dimensioni a cui mi sono dedicato, e in particolare è stato il primo progetto a cui mi sono dedicato in ambito di videogiochi, tema che mi ha sempre molto affascinato e a cui vorrei dedicare anche la mia carriera futura. In particolare per questo motivo, ho trovato stimolante la fase di sviluppo del software e particolarmente gratificante riuscire a produrre un risultato finale funzionante.
@@ -174,12 +289,6 @@ Personalmente, questo è stato il primo progetto di gruppo di queste dimensioni 
 \newline Nel complesso però, mi sento di dire che il risultato finale rispecchia abbastanza l'idea che avevo del gioco prima di iniziare lo sviluppo, e che ho trovato stimolante il processo di realizzazione. Per come è strutturato il software ci sarebbe margine per allargarlo e portarlo a qualcosa di più di una demo da qualche minuto, anche se dubito che possa accadere. D'altro canto, personalmente vedo rafforzata la mia passione verso il mondo dello sviluppo di videogiochi, e sono volenteroso di portare avanti questa passione anche con progetti personali che possano permettermi di approfondire ulteriormente parti dello sviluppo che per motivi di suddivisione del lavoro ho toccato meno.
 
 \section{Difficoltà incontrate e commenti per i docenti}
-
-Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-%
-È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-%
-Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
 
 \appendix
 \chapter{Guida utente}
