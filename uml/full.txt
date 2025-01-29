@@ -1,0 +1,128 @@
+@startuml
+package it.unibo.oop.relario{
+    package controller {
+
+        interface Observer {
+            + {method} onNotify
+        }
+
+        interface GameViewObserver extends Observer {}
+
+        interface CombatViewObserver extends Observer {}
+
+        interface MenuViewObserver extends Observer {}
+
+        interface OptionMenuObserver extends Observer {}
+    }
+
+    package model {
+
+        interface Stage {
+            + {method} update
+        }
+
+        interface Room extends Stage {
+        }
+
+        interface Fight extends Stage {
+            + {method} inventoryHandled
+            + {method} begForMercy
+        }
+
+        package inventory {
+            interface Inventory {
+                + {method} useItem
+                + {method} getItemName
+                + {method} getItemDescription
+                + {method} dropItem
+                + {method} getItemsList
+                + {method} addItem
+                + {method} getItemsNumber
+            }
+
+            interface InventoryItem {
+                + {method} getName
+                + {method} getDescription
+                + {method} getEffect
+                + {method} isEquippable
+                + {method} getDurability
+            }
+
+            abstract class Weapon extends InventoryItem {}
+
+            abstract class Armor extends InventoryItem {}
+
+            abstract class Healing extends InventoryItem {}
+
+            Inventory o-- InventoryItem
+        }
+
+        package entities {
+
+            interface NonPlayingEntity {
+                + {method} isInteractive
+                + {method} interact
+                + {method} getPosition
+            }
+
+            package living{
+                interface PlayingCharacter {
+                    + {method} handleInventory
+                    + {method} attacked
+                    + {method} getLife
+                    + {method} update
+                }
+
+                PlayingCharacter *-- Inventory
+
+                interface NonPlayingCharacter {
+                }
+
+                interface Enemy extends NonPlayingCharacter {
+                    + {method} dropsOnDeath
+                    + {method} attacked
+                    + {method} mercyAsked
+                }
+
+                abstract class Wizard extends Enemy {}
+
+                abstract class Soldier extends Enemy {}
+                
+                abstract class Thief extends Enemy {}
+            }
+
+            package furniture {
+                interface FurnitureItem {
+                    + {method} isWalkable
+                }
+
+                abstract class WalkableFurniture extends FurnitureItem {}
+
+                abstract class ObstructingFurniture extends FurnitureItem {}
+            }
+
+            Room *-- NonPlayingEntity
+            Room o-- PlayingCharacter
+            Fight o-- PlayingCharacter
+            Fight o-- Enemy
+            NonPlayingEntity <|-- FurnitureItem
+            NonPlayingEntity <|-- NonPlayingCharacter
+        }
+    }
+
+    package view {
+        interface View {
+            + {method} show
+            + {method} update
+        }
+
+        abstract class MainMenuGUI extends View {}
+
+        abstract class OptionsMenuGUI extends View {}
+
+        abstract class GameGUI extends View {}
+
+        abstract class CombatGUI extends View {}
+    }
+}
+@enduml

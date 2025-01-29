@@ -1,0 +1,23 @@
+@startuml
+package it.unibo.oop.relario.model.furniture {
+    interface FurnitureItem {
+        + {method} getPosition
+        + {method} isWalkable
+    }
+
+    interface WalkableFurniture extends FurnitureItem {
+        + {method} isWalkable returns True
+        + {method} hasEnemy
+    }
+
+    interface ObstructingFurniture extends FurnitureItem {
+        + {method} isWalkable returns False
+        + {method} isInteractive returns False
+    }
+
+    interface InteractiveFurniture extends ObstructingFurniture {
+        + {method} isInteractive returns True
+        + {method} dropLoot
+    }
+}
+@enduml

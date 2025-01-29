@@ -1,0 +1,18 @@
+@startuml
+package it.unibo.oop.relario {
+    package view {
+        interface View {
+            + {method} show
+            + {method} update
+        }
+
+        abstract class MainMenuGUI extends View {}
+
+        abstract class OptionsMenuGUI extends View {}
+
+        abstract class GameGUI extends View {}
+
+        abstract class CombatGUI extends View {}
+    }
+}
+@enduml

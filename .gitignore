@@ -1,2 +1,7 @@
 # gradle #
 .gradle
+bin/*
+
+# vscode files *
+.vscode/*
+build/*
