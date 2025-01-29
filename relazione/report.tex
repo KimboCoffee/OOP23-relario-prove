@@ -99,12 +99,11 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 \subsection{Mazuru Mihai}
 
 \subsubsection{Furniture}
-\textbf{Problema}: Nella modellazione degli oggetti di arredo mi sono imbattuto nel problema 
+\paragraph{Problema}: Nella modellazione degli oggetti di arredo mi sono imbattuto nel problema 
 di come realizzare diverse tipologie di arredi senza ripetizioni di codice. Questi oggetti 
 sono caratterizzati da un nome, una descrizione, una posizione e un tipo, e invece si differenziano 
 per le seguenti proprietà: attraversabilità e interattività.
-
-\textbf{Soluzione}: Ho optato per l'implementazione del pattern \textit{Template Method}. 
+\paragraph{Soluzione} Ho optato per l'implementazione del pattern \textit{Template Method}. 
 L'ho applicato realizzando una classe astratta \textit{Furniture} che contiene la logica comune a 
 tutti gli oggetti di arredo (con i corrispettivi getter) e i metodi astratti \textit{isWalkable()} e 
 \textit{isInteractive()}. L'implementazione di questi metodi viene lasciata ad ogni sottoclasse.
@@ -112,7 +111,6 @@ Difatti la classe \textit{WalkableFurniture} definisce oggetti di arredo con i q
 che non ostacolano il passaggio delle entità viventi, mentre la classe \textit{ObstructingFurniture} 
 definisce oggetti con caratteristiche diametralmente opposte (bloccanti e non interattivi) e 
 invece la classe \textit{InteractiveFurniture} definisce oggetti con caratteristiche intermedie (bloccanti ed interattivi).
-
 \newline La soluzione scelta consente inoltre l'estendibilità, facilitando la creazione di una nuova
 ipotetica classe con oggetti attraversabili e non interattivi.
 
@@ -123,11 +121,10 @@ ipotetica classe con oggetti attraversabili e non interattivi.
 	\label{img:template}
 \end{figure}
 
-\textbf{Problema}: La creazione dei diversi oggetti di arredo attraverso una semplice "new" comporterebbe
+\paragraph{Problema} La creazione dei diversi oggetti di arredo attraverso una semplice "new" comporterebbe
 l'aggiunta di dipendenze al nostro codice, rendendolo più difficile e tedioso da testare, 
 complicando la sua estendibilità ed eventualmente la sua manuntenzione. 
-
-\textbf{Soluzione}: Proprio per questo ho scelto di utilizzare il pattern \textit{Simple Factory} per la 
+\paragraph{Soluzione} Proprio per questo ho scelto di utilizzare il pattern \textit{Simple Factory} per la 
 creazione degli arredi. Ho realizzato un'interfaccia che contiene i metodi per la creazione dei diversi
 tipi di arredi. Questi metodi vengono implementati dalla sua sottoclasse, la quale è in grado di creare 
 oggetti randomici, specifici oppure solo di un determinato tipo. Gli unici parametri richiesti sono il tipo
@@ -143,11 +140,10 @@ internamente alla factory attraverso una mappa che contiene per ogni tipo divers
 
 \subsubsection{Gestione panelli di gioco}
 
-\textbf{Problema}: Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
+\paragraph{Problema} Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
 era proprio quello di capire come gestire nel migliore dei modi il passaggio da una pannello di gioco ad 
 un altro.
-
-\textbf{Soluzione}: Per risolvere questo problema il gruppo ha scelto di creare una \textit{MainView} che
+\paragraph{Soluzione} Per risolvere questo problema il gruppo ha scelto di creare una \textit{MainView} che
 si sarebbe occupata della creazione del frame, della creazione dei vari pannelli di gioco e
 delle transizione da un pannello all'altro.
 Io mi sono occupato dell'implementazione e ho optato per l'utilizzo di \textit{CardLayout}, un manager layout
@@ -163,11 +159,10 @@ dal corrispondente controller.
 
 \subsubsection{Gestione combattimento}
 
-\textbf{Problema}: Il combattimento è uno dei momenti più importanti del gioco e la sua gestione 
+\paragraph{Problema} Il combattimento è uno dei momenti più importanti del gioco e la sua gestione 
 in modo ottimale è fondamentale per garantire una gradevole esprienza all'utente. La gestione dei turni e la 
 gestione delle azioni di combattimenti sono aspetti importanti per il raggiungimento di questo obiettivo.
-
-\textbf{Soluzione}: Le possibili scelte all'interno della fase di combattimento sono: attaccare, chiedere pietà oppure
+\paragraph{Soluzione} Le possibili scelte all'interno della fase di combattimento sono: attaccare, chiedere pietà oppure
 aprire l'inventario. Queste possibili azioni vengono gestite tramite un Action Listener che notifica
 il \textit{CombatController}. Il controller in questione attraverso uno switch, al quale si accede solo se l'azione avviata
 precedentemente è finita, delega la gestione dell'azione agli appositi metodi privati oppure delega il lavoro al controller
@@ -186,7 +181,7 @@ rese visibili e aggiornate attraverso una chiamata di "update" alla \textit{Comb
 \end{figure}
 
 \subsection{Kimi Osti}
-Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati dalla Gang of Four, anche al libro \cite{nystrom2014}.
+Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati dalla Gang of Four, anche al libro \cite{nystrom2014}, presentato dal Prof. Alessandro Ricci durante il seminario Game as a Lab.
 
 \subsubsection{Input da tastiera nella fase di esplorazione}
 \begin{figure}[H]
@@ -195,23 +190,39 @@ Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati
 	\caption{Schema UML delle classi e interfacce coinvolte}
 	\label{img:observer-gameview}
 \end{figure}
-\paragraph{Problema} Il giocatore comanda il personaggio principale tramite tastiera, e gli input devono essere catturati dal GameController.
-\paragraph{Soluzione} La collaborazione fra classi viene realizzata grazie al pattern Observer. In particolare, la classe GameView fa da observable, e tramite il KeyListener registrato trasmette i propri eventi al GameController, che fa da observer. In particolare, in questa soluzione viene sfruttato un GameKeyListener che implementa l'interfaccia KeyListener, filtrando i tasti di interesse per il gioco e traducendoli in un particolare Event, enumerazione definita all'interno del progetto per tracciare gli eventi rilevanti all'applicazione. Grazie a questa enumerazione, gli eventi sono trattati ad alto livello e si permette facilmente estendibilità verso la funzionalità opzionale della riassegnabilità dei tasti, a patto di permettere al GameKeyListener di modificare la mappatura da evento di pressione del tasto ed Event.
+\paragraph{Problema} Il giocatore comanda il personaggio principale tramite tastiera, e gli input devono essere catturati dal \textit{GameController}.
+\paragraph{Soluzione} La collaborazione fra classi viene realizzata grazie al pattern \textit{Observer}. In particolare, la classe \textit{GameView} fa da observable, e tramite il \textit{KeyListener} registrato trasmette i propri eventi al \textit{GameController}, che fa da observer. In particolare, in questa soluzione viene sfruttato un \textit{GameKeyListener} che implementa l'interfaccia \textit{KeyListener}, filtrando i tasti di interesse per il gioco e traducendoli in un particolare \textit{Event}, enumerazione definita all'interno del progetto per tracciare gli eventi rilevanti all'applicazione. Grazie a questa enumerazione, gli eventi sono trattati ad alto livello e si permette facilmente estendibilità verso la funzionalità opzionale della riassegnabilità dei tasti, a patto di permettere al GameKeyListener di modificare la mappatura da evento di pressione del tasto ed \textit{Event}.
 
 \subsubsection{Creazione e gestione dei componenti per l'interfaccia di esplorazione}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{img/factory-gameview.png}
 	\caption{Schema UML delle classi e interfacce coinvolte}
-	\label{img:factory-gameview.png}
+	\label{img:factory-gameview}
 \end{figure}
-\paragraph{Problema} Nell'interfaccia della fase di esplorazione, si deve renderizzare il contenuto della mappa, oltre a un banner contenente i comandi nella parte superiore dello schermo e un banner con eventuali messaggi di interazione nella fase inferiore. Ciò significa avere diversi pannelli, tutti accomunati dallo sfondo nero, e di cui i due superiori devono contenere eventualmente testo, mentre quelli centrali delle scene rappresentate dalla sovrapposizione di BackgroundTile e ForegroundTile
-\paragraph{Soluzione} Per alleggerire l'implementazione di GameView e renderla più comprensibile, si è creata una helper class in grado di gestire i componenti dell'interfaccia. In particolare, si sottolineano i metodi che fungono da Factory, ovvero i tre metodi getGamePanel, getBackgroundTile e getForegroundTile che vengono usati per creare i componenti che andranno poi a formare l'interfaccia grafica nel suo complesso. Vengono inoltre definiti due metodi per ridimensionare i componenti e per mostrare il testo contenuto al loro interno.
+\paragraph{Problema} Nell'interfaccia della fase di esplorazione, si deve renderizzare il contenuto della mappa, oltre a un banner contenente i comandi nella parte superiore dello schermo e un banner con eventuali messaggi di interazione nella fase inferiore. Ciò significa avere diversi pannelli, tutti accomunati dallo sfondo nero, e di cui i due superiori devono contenere eventualmente testo, mentre quelli centrali delle scene rappresentate dalla sovrapposizione di \textit{BackgroundTile} e \textit{ForegroundTile}
+\paragraph{Soluzione} Per alleggerire l'implementazione di \textit{GameView} e renderla più comprensibile, si è creata una helper class in grado di gestire i componenti dell'interfaccia. In particolare, si sottolineano i metodi che fungono da Factory, ovvero i tre metodi \textit{getGamePanel}, \textit{getBackgroundTile} e \textit{getForegroundTile} che vengono usati per creare i componenti che andranno poi a formare l'interfaccia grafica nel suo complesso. Vengono inoltre definiti due metodi per ridimensionare i componenti e per mostrare il testo contenuto al loro interno.
+
+\subsubsection{Gestione del Main Loop}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/game-loop.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:game-loop}
+\end{figure}
+\paragraph{Problema} Il Model, essendo presenti entità viventi all'interno della stanza, deve essere periodicamente aggiornato per rendere effettivo il movimento di tali entità, e in particolare il risultato dell'aggiornamento deve essere reso visibile all'utente tramite View.
+\paragraph{Soluzione} All'interno di \textit{MainControllerImpl} viene istanziato il \textit{GameLoop}, un thread separato che si occupa di gestire la temporizzazione degli aggiornamenti del Model, come presentato nel Game Loop Pattern in \cite{nystrom2014}. In questo modo, la gestione dell'input rimane delegata a \textit{GameControllerImpl}, mentre la temporizzazione dell'aggiornamento viene gestita da \textit{GameLoop} per evitare dipendenze. Inoltre, la temporizzazione viene legata al tempo reale piuttosto che al tempo di CPU, per evitare rese diverse su processori di diverse potenze. \textit{GameLoop} è anche deputata di comandare a \textit{GameView} gli aggiornamenti necessari a rappresentare le modifiche del Model, e per motivi legati alla rappresentazione unitaria della posizione all'interno del Model l'aggiornamento della View viene effettuato di pari passo rispetto a quello del Model, anche se si sarebbe potuto svincolare per massimizzare il framerate indipendentemente dalla velocità di aggiornamento del Model. 
+\newline Nello scenario del Game Loop pattern viene applicato anche il pattern dell'Update Method, sempre presentato in \cite{nystrom2014} e strettamente legato. In particolare, i metodi interessati sono \textit{update} in \textit{Room} e \textit{renderTextures} in \textit{GameView}.
 
 \subsubsection{Individuazione delle texture}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{img/locator-game.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:locator-game}
+\end{figure}
+\paragraph{Problema} Durante la fase di esplorazione del gioco, ad ogni frame, il contenuto della stanza deve essere renderizzato traducendo le entità del Model in elementi rappresentabili dalla View.
+\paragraph{Soluzione} Per risolvere il problema riducendo al minimo le dipendenze, si è introdotta una classe che fa da Locator per le texture. In questo modo, il Controller, reificato in \textit{GameLoop}, può accedere al Model per interrogarlo sul contenuto della stanza, e inviare il contenuto del Model processato dal Locator alla View per il rendering. Ciò significa che il Main Loop rimane completamente agnostico rispetto al formato richiesto dalla View, delegando il compito di traduzione da classi di Model a risorse di View al Locator. In questo modo, una sostituzione anche in blocco della View comporterebbe necessità di modifica solo all'interno del Locator, evitando così di impattare Controller e Model.
 
 \chapter{Sviluppo}
 
@@ -235,19 +246,13 @@ Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit 
 
 \subsection{Kimi Osti}
 
-Di seguito si presentano singoli esempi di uso di costrutti avanzati di Java. Ciò non impedisce che all'interno del codice appaiano più istanze in cui vengono usati.
-
-\subsubsection{Uso di Java Wildcards}
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/utils/impl/GameTexturesLocator.java#L42}
-
-\subsubsection{Uso di Lambda Expressions e di Optional}
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/inventory/InventoryImpl.java#L40}
-
-\subsubsection{Uso di InputStream}
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/UserGuide.java#L54}
-
-\subsubsection{Gestione esplicita dei Thread}
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blame/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/controller/impl/GameLoop.java#L32}
+Di seguito si presentano singoli esempi di uso di costrutti avanzati di Java. Ciò non impedisce che all'interno del codice appaiano più situazioni in cui vengono usati.
+\begin{itemize}
+	\item \textbf{Java Wildcards} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/utils/impl/GameTexturesLocator.java#L42}
+	\item \textbf{Lambda Expressions e Optional} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/inventory/InventoryImpl.java#L40}
+	\item \textbf{InputStream} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/UserGuide.java#L54}
+	\item \textbf{Gestione dei Thread} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/GameLoop.java}
+\end{itemize}
 
 \subsubsection{Codice reperito online}
 Per la realizzazione della classe BackgroundTile (Permalink:  \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/BackgroundTile.java}) si è preso spunto da \href{https://coderanch.com/t/336043/java/Images-top}{questa pagina di forum online}.
