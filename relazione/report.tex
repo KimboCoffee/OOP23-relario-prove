@@ -102,11 +102,11 @@ dell'interfaccia utente per l'inventario, delle scene di transizione tra le vari
 e della gestione dei suoni e canzoni per le varie fasi del gioco.
 
 \textbf{Collisioni e Interazioni}
-\textbf{Problema:} Il giocatore e gli altri esseri viventi possono muoversi all'interno di una stanza ma non possono coesistere 
+Il giocatore e gli altri esseri viventi possono muoversi all'interno di una stanza ma non possono coesistere 
 contemporaneamente nello stesso punto della stanza insieme ad un altro essere vivente o a una parte di arredamento (non calpestabile).
 Il giocatore e gli altri esseri viventi possono interagire con un'entità (che può essere un altro essere vivente o un pezzo di arredamento)
 di fronte ad egli. 
-\textbf{Soluzione:} Il controllo delle collisioni, che decreta se il movimento del soggetto è consentito oppure no, deve quindi prendere in considerazione
+Il controllo delle collisioni, che decreta se il movimento del soggetto è consentito oppure no, deve quindi prendere in considerazione
 tutti gli esseri viventi presenti in mappa, l'arredamento e la dimensione della stanza e verificare che il soggetto si muoverà in un posto consentito.
 Il controllo delle interazioni, che decreta se ci si trova di fronte ad un'entità interattiva, prende in considerazione
 tutti gli esseri viventi presenti in mappa e l'arredamento. 
@@ -114,6 +114,45 @@ tutti gli esseri viventi presenti in mappa e l'arredamento.
 attivamente con le varie entità, tuttavia con la stessa soluzione sarebbe possibile avere interazioni attive anche da parte degli altri esseri viventi.
 IMMAGINE
 PATTERN
+
+\textbf{GUI Inventario}
+Il giocatore durante il gioco e specialmente durante i combattimenti ha la necessità di interagire con gli oggetti
+che ha ottenuto. 
+L'inventario è guidato da input da tastiera che vengono gestiti tramite un key listener. Questi vengono passati al
+controller dell'inventario che implementa la classe Observer. Il controller si occupa di applicare le modifiche arrivate tramite
+l'evento di input all'inventario e riflette queste modifiche nella visualizzazione grafica, aggiornandola coi dati più recenti.
+Per facilitare la creazione dell'interfaccia grafica è stata utilizzata una factory per la creazione dei vair componenti
+interni della GUI.
+IMMAGINE
+PATTERN Observer e Factory.
+
+\textbf{Scene di transizione}
+Le scene di transizione riguardano l'introduzione, i passaggi da una stanza all'altra e gli scenari riguardanti la fine del gioco.
+La scena iniziale ha lo scopo di introdurre il gioco spiegandone l'obiettivo. Gli scenari della fine del gioco possono essere due
+differenti in caso di vittoria - dati in base a come la vittoria è stata ottenuta - oppure quello di sconfitta, in caso non si riesca
+a vincere la battaglia finale contro il re.
+Le scene vengono chiamate in base allo stato del gioco da show() nell'apposito controller. Le scene sono temporizzate, ed al termine
+di questo tempo terminano con la chiamata al controller del metodo progress() per passare alla fase di gioco successiva, specificando
+a quale fase passare.
+IMMAGINE
+PATTERN
+
+\textbf{Animazioni di combattimento}
+Le animazioni di combattimento vengono mostrate qualora il protagonista o un nemico sferri un attacco. 
+IMMAGINE
+PATTERN
+
+\textbf{Gestione dei suoni}
+La gestione dei suoni passa da un sound locator, che prende le risorse e le trasforma in clip, e poi ogni clip è gestita internamente
+alla singola view in cui viene eseguita. 
+Inizialmente l'idea era di avere un'unica classe che gestisse interamente i suoni, tuttavia questo portava a dei problemi esponendo
+la rappresentazione interna della classe, quindi ho optato per gestire i singoli oggetti all'interno delle rispettive view. 
+I suoni sono suddivisi in colonne sonore ed effetti. Le colonne sonore sono differenti per il menu iniziale, per le stanze e per i combattimenti
+- con una dedicata al combattimento col boss - mentre gli effetti sono presenti durante l'avanzamento di stanza, durante le animazioni di combattimento
+e dirante le scene di fine gioco - separando la vittoria dalla sconfiitta.
+IMMAGINE
+PATTERN
+
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
