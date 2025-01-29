@@ -96,7 +96,77 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \section{Design dettagliato}
 
+\subsection*{Mazuru Mihai}
+//magari introduzione dove dico tutto quello che ho fatto
 
+\section{Furniture}
+\textbf{Problema}: Nella modellazione degli oggetti di arredo mi sono imbattuto nel problema 
+di come realizzare diverse tipologie di arredi senza ripetizioni di codice. Questi oggetti 
+sono caratterizzati da un nome, una descrizione, una posizione e un tipo, e invece si differenziano 
+per le seguenti proprietà: attraversabilità e interattività.
+
+\textbf{Soluzione}: Ho optato per l'implementazione del pattern \textit{Template Method}. 
+L'ho applicato realizzando una classe astratta \textit{Furniture} che contiene la logica comune a 
+tutti gli oggetti di arredo (con i corrispettivi getter) e i metodi astratti \textit{isWalkable()} e 
+\textit{isInteractive()}. L'implementazione di questi metodi viene lasciata ad ogni sottoclasse.
+Difatti la classe \textit{WalkableFurniture} definisce oggetti di arredo con i quali si può interagire e
+che non ostacolano il passaggio delle entità viventi, mentre la classe \textit{ObstructingFurniture} 
+definisce oggetti con caratteristiche diametralmente opposte (bloccanti e non interattivi) e 
+invece la classe \textit{InteractiveFurniture} definisce oggetti con caratteristiche intermedie(bloccanti ed interattivi).
+
+\newline La soluzione scelta consente inoltre l'estendibilità, facilitando la creazione di una nuova
+ipotetica classe con oggetti attraversabili e non interattivi.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/template.png}
+	\caption{Schema UML dell'applicazione del pattern Template Method alla gerarchia delle Furniture.}
+	\label{img:template}
+\end{figure}
+
+\textbf{Problema}:La creazione dei diversi oggetti di arredo attraverso una semplice "new" comporterebbe
+l'aggiunta di dipendenze al nostro codice, rendendolo più difficile e tedioso da testare, 
+complicando la sua estendibilità ed eventualmente la sua manuntenzione. 
+
+\textbf{Soluzione}:Proprio per questo ho scelto di utilizzare il pattern \textit{Simple Factory} per la 
+creazione degli arredi. Ho realizzato un'interfaccia che contiene i metodi per la creazione dei diversi
+tipi di arredi. Questi metodi vengono implementati dalla sua sottoclasse, il quale è in grado di creare 
+oggetti randomici, specifici oppure solo di un determinato tipo. Gli unici parametri richiesti sono il tipo
+e la posizione dell'arredo, mentre le altre caratterische come il nome e la descrizione vengono gestite
+internamente alla factory attraverso una mappa che contiene per ogni tipo diverso di arredo una descrizione unica.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/furnitureSimpleFactory.png}
+	\caption{Schema UML dell'applicazione del patter Simple Factory per la creazione di Furniture.}
+	\label{img:furnitureSimpleFactory}
+\end{figure}
+
+\section{Gestione panelli di gioco}
+
+\textbf{Problema}:Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
+era proprio quello di capire come gestire nel migliore dei modi il passaggio da una pannello di gioco ad 
+un altro.
+
+\textbf{Soluzione}:Per risolvere questo problema il gruppo ha scelto di creare una \textit{MainView} che
+si sarebbe occupata della creazione del frame, della creazione dei vari pannelli di gioco e
+delle transizione da un pannello all'altro.
+Io mi sono occupato dell'implementazione e ho optato per l'utilizzo di \textit{CardLayout}, un manager layout
+che permette di associare ad ogni pannello una stringa di testo, attraverso la quale sarà possibile far emergere
+dalla "pila di carte" il pannello desiderato. L'invocazione del metodo per emergere un certo pannello viene effettuata
+dal corrispondente controller.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/mainView.png}
+	\caption{Schema UML che rappresenta MainView, alcuni pannelli di gioco, alcuni controller del gioco e le loro interazioni.}
+	\label{img:mainView}
+\end{figure}
+
+\section{Gestione combattimento}
+
+\textbf{Problema}:Il combattimento è uno dei momenti di gioco più importanti e la sua gestione  
+
+\textbf{Soluzione}:
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
