@@ -96,7 +96,24 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \section{Design dettagliato}
 
+\subsection{Lorenzo Cinelli}
+Mi sono occupato della realizzazione del controllo di collisioni e interazioni tra i living being e le altre entità presenti nella stanza, 
+dell'interfaccia utente per l'inventario, delle scene di transizione tra le varie fasi di gioco, della visualizzazione di animazioni durante il combattimento
+e della gestione dei suoni e canzoni per le varie fasi del gioco.
 
+\textbf{Collisioni e Interazioni}
+\textbf{Problema:} Il giocatore e gli altri esseri viventi possono muoversi all'interno di una stanza ma non possono coesistere 
+contemporaneamente nello stesso punto della stanza insieme ad un altro essere vivente o a una parte di arredamento (non calpestabile).
+Il giocatore e gli altri esseri viventi possono interagire con un'entità (che può essere un altro essere vivente o un pezzo di arredamento)
+di fronte ad egli. 
+\textbf{Soluzione:} Il controllo delle collisioni, che decreta se il movimento del soggetto è consentito oppure no, deve quindi prendere in considerazione
+tutti gli esseri viventi presenti in mappa, l'arredamento e la dimensione della stanza e verificare che il soggetto si muoverà in un posto consentito.
+Il controllo delle interazioni, che decreta se ci si trova di fronte ad un'entità interattiva, prende in considerazione
+tutti gli esseri viventi presenti in mappa e l'arredamento. 
+È stata fatta la scelta di evitare di avere interazioni attive da parte delle entità non giocanti (NPC), di conseguenza solo il protagonista interagirà
+attivamente con le varie entità, tuttavia con la stessa soluzione sarebbe possibile avere interazioni attive anche da parte degli altri esseri viventi.
+IMMAGINE
+PATTERN
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
