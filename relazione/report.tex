@@ -173,6 +173,43 @@ Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit 
 
 \section{Note di sviluppo}
 
+\subsection{Lorenzo Cinelli}
+
+\begin{itemize}
+	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{InventoryControllerImpl} nel metodo \textit{notify} per gestire gli eventi osservati sul key listener. 
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L57-L77
+	\item \textbf{Stream ed espressione Labmda:} Utilizzati nella classe \textit{InventoryControllerImpl} nel metodo \textit{getItemsNames} per restituire una lista di stringhe
+	da una lista di oggetti di inventario.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L83-L86
+	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{InventoryControllerImpl} nel metodo \textit{regress} per gestire il cambio di stato del gioco in uscita 
+	dall'inventario.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L138-L142
+	\item \textbf{Optional:} Utilizzati nella classe \textit{InventoryItems} nel metodo \textit{getEquippedItem} per poter passare il campo optional dell'inventario sia per l'armatura
+	che per l'arma, i quali possono essere equipaggiati come no.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L33-L34
+	\item \textbf{Reflection:} Utilizzata nella classe \textit{InventoryItems} nel metodo \textit{getDurability} per controllare se l'oggetto di inventario passato sia un oggetto
+	equipaggiabile, e di conseguenza se ha una durabilità.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L51
+	\item \textbf{Espressioni Lambda:} Utilizzate nella classe \textit{CutSceneControllerImpl} nei metodi \textit{show}, \textit{progressGame} e \textit{progressView} utilizzate
+	rispettivamente per mostrare la scena corretta in base allo stato del gioco, caricare il controller successivo mentre viene mostrata la scena e mostrare la view successiva in
+	base allo stato successivo una volta terminata la scena.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/CutSceneControllerImpl.java#L27-L56
+	\item \textbf{Espressioni Lambda:} Utilizzate nella classe \textit{CutSceneViewImpl} nei metodi \textit{showStartScene}, \textit{showNextRoomScene}, \textit{showVictoryScene} e 
+	\textit{showDefeatScene} per indicare l'azione da far eseguire ai timer dopo che il tempo per la scena stessa sia trascorso. Nello specifico chiamano il 
+	\textit{CutSceneController} per far proseguire il gioco nello stato successivo.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L84
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L94-L97
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L114-L117
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L128-L131
+	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{CombatScene} nel metodo \textit{updateEnemyTexture} per rimuovere dalla visualizzazione l'animazione
+	del colpo sferrato dopo che è stata visualizzata una volta. 
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatScene.java#L117
+	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{CombatAnimationImpl} nel costruttore per gestire la risorsa da utilizzare come animazione.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L46-L50
+	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{CombatAnimationImpl} nel metodo \textit{start} per chiudere la risorsa audio.
+	https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L55
+\end{itemize}
+
 Questa sezione, come quella riguardante il design dettagliato va svolta \textbf{singolarmente da ogni membro del gruppo}.
 %
 Nella prima parte, ciascuno dovrà mostrare degli esempi di codice particolarmente ben realizzati,
