@@ -89,13 +89,41 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \begin{figure}[H]
 	\centering{}
-	\includegraphics[width=\textwidth]{img/mvc.png}
+	
 	\caption{Schema UML degli entry point dei rapporti fra componenti di MVC}
 	\label{img:mvc}
 \end{figure}
 
 \section{Design dettagliato}
 
+\subsection{Sara Panfini}
+\subsection{\textbf{Gestione dei Nemici}}
+\textbf{Problema:} Il problema da affrontare è la gestione dei nemici, che possono avere caratteristiche variabili, come
+la vita, il danno o gli oggetti che offrono come ricompensa dopo un combattimento, in base alla loro tipologia e livello di difficoltà.
+Inoltre, la creazione dei nemici dovrebbe essere gestita in modo da poter essere facilmente estendibile, così da consentire l'aggiunta
+di nuove tipologie di nemici senza dover necessariamente modificare il codice già esistente.\newline
+\textbf{Soluzione:} La soluzione adottata è quella di utilizzare il \textit{Factory Pattern} e implementare una factory di nemici nell'interfaccia
+\textit{EnemyFactory} e nella sua relativa implementazione \textit{EnemyFactoryImpl}. Inoltre, sono state sfruttate delle enumerazioni per
+gestire le varie tipologie e difficoltà dei nemici. Questa soluzione è stata scelta per rendere la creazione più flessibile e modulare, centralizzando
+la logica di creazione dei nemici in modo da avere un sistema maggiormente scalabile.\newline
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/EnemyUML.png}
+	\caption{Schema UML della Factory dei nemici}
+\end{figure}
+
+
+\subsection{\textbf{Gestione degli NPC neutri}}
+\textbf{Problema:} Durante il gioco gli NPC sono in grado di supportare diversi tipi di interazione; ad esempio, possono regalare oggetti o assegnare le quest al giocatore.
+Il sistema dovrebbe, quindi, gestire i diversi comportamenti in maniera scalabile, così da permettere di introdurre facilmente nuove tipologie di interazioni.\newline
+\textbf{Soluzione:} Per riuscire a gestire al meglio i comportamenti variabili degli NPC, è stato utilizzato lo \textit{Strategy Pattern}.
+In questo modo si riescono a stabilire diverse tipologie di comportamenti che questi personaggi possono assumere in risposta all'interazione con il giocatore.
+In particolare, l'interfaccia \textit{NpcBehavior} offre un metodo base per interagire con tutti gli NPC e deve essere poi implementata dalle classi che vanno a gestire 
+le specifiche tipologie di comportamento (\textit{DefaultBehavior}, \textit{LootBehavior}, ...). 
+Inoltre, per crearli (con i comportamenti predefiniti) viene nuovamente utilizzato il \textit{Factory Pattern}. 
+Questa soluzione implementativa rende la gestione degli NPC facilmente estendibile, dato che per definire ulteriori comportamenti si possono direttamente 
+creare nuove particolari implementazioni dell'interfaccia \textit{NpcBehavior} e l'intera logica di creazione degli NPC si trova nella classe \textit{NpcFactoryImpl}.
 
 
 \chapter{Sviluppo}
