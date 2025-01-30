@@ -339,35 +339,34 @@ Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit 
 \begin{itemize}
 	\item \textbf{Espressioni Lambda:} Utilizzate nella classe \textit{InventoryControllerImpl} nei metodi \textit{notify} e \textit{regress} per gestire rispettivamente
 	gli eventi osservati sul key listener ed il cambio di stato del gioco in uscita dall'inventario.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L57-L77}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L138-L142}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L57-L77}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L138-L142}
 	\item \textbf{Stream ed espressione Labmda:} Utilizzati nella classe \textit{InventoryControllerImpl} nel metodo \textit{getItemsNames} per restituire una lista di stringhe
 	da una lista di oggetti di inventario.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L83-L86}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/controller/impl/InventoryControllerImpl.java#L83-L86}
 	\item \textbf{Optional:} Utilizzati nella classe \textit{InventoryItems} nel metodo \textit{getEquippedItem} per poter passare il campo optional dell'inventario sia per l'armatura
 	che per l'arma, i quali possono essere equipaggiati come no.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L33-L34}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L33-L34}
 	\item \textbf{Reflection:} Utilizzata nella classe \textit{InventoryItems} nel metodo \textit{getDurability} per controllare se l'oggetto di inventario passato sia un oggetto
 	equipaggiabile, e di conseguenza se ha una durabilità.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L51}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItems.java#L51}
 	\item \textbf{Espressioni Lambda:} Utilizzate nella classe \textit{CutSceneControllerImpl} nei metodi \textit{show}, \textit{progressGame} e \textit{progressView} utilizzate
 	rispettivamente per mostrare la scena corretta in base allo stato del gioco, caricare il controller successivo mentre viene mostrata la scena e mostrare la view successiva in
 	base allo stato successivo una volta terminata la scena.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/CutSceneControllerImpl.java#L27-L56}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/controller/impl/CutSceneControllerImpl.java#L27-L56}
 	\item \textbf{Espressioni Lambda:} Utilizzate nelle classi \textit{CutSceneViewImpl}, \textit{CombatScene} e \textit{CombatAnimationImpl} per indicare l'azione da far eseguire ai timer una volta scaduti.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L84}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L94-L97}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L114-L117}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L128-L131}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatScene.java#L117}
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L55}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L84}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L94-L97}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CutSceneViewImpl.java#L122-L125}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CombatScene.java#L117}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L55}
 	\item \textbf{Espressione Lambda:} Utilizzata nella classe \textit{CombatAnimationImpl} nel costruttore per gestire la risorsa da utilizzare come animazione.
-	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L46-L50}
+	Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/view/impl/CombatAnimationImpl.java#L46-L50}
 \end{itemize}
 
 Le classi \textit{ImageLocators} e \textit{SoundLocators}, per caricare risorse da file, sono state scritte prendendo spunto da Internet.
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/utils/impl/ImageLocators.java#L23-L43}
-Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/utils/impl/SoundLocators.java#L28-L50}
+Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/utils/impl/ImageLocators.java#L23-L43}
+Permalink: \url{https://github.com/KimboCoffee/OOP23-relario/blob/18fd3851aabd2d45b26bb726cd73f204721d9190/src/main/java/it/unibo/oop/relario/utils/impl/SoundLocators.java#L28-L50}
 
 \subsection{Kimi Osti}
 
