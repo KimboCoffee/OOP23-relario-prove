@@ -5,10 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{float}
 \usepackage{hyperref}
-
-% Questo commentalo se vuoi scrivere in inglese.
 \usepackage[italian]{babel}
-
 \usepackage[italian]{cleveref}
 
 \title{Relario: Tales of Relano\\Progetto per il corso di\\``Programmazione ad Oggetti''}
@@ -28,20 +25,20 @@
 
 \section{Descrizione e requisiti}
 
-Il software realizzato è un videogioco 2D con vista dall’alto. Il suo svolgimento gira attorno a un personaggio principale, controllato dall’utente, che deve attraversare le stanze di un castello per raggiungere lo scontro finale con il Re, di cui deve conquistare il trono.
+Il software realizzato è un videogioco 2D con vista dall’alto. Lo svolgimento gira attorno a un personaggio principale, controllato dall’utente, che deve attraversare le stanze di un castello per raggiungere lo scontro finale con il Re, di cui deve conquistare il trono.
 %
-\newline Durante l’esplorazione delle stanze all’utente potranno essere affidate delle quest da completare per poter procedere correttamente.
+\newline Durante l’esplorazione delle stanze all’utente potranno essere affidate delle quest da completare per poter proseguire nel gioco.
 %
-\newline Inoltre, gli verranno presentato delle stanze quasi completamente interattive. In particolare, ci saranno dei personaggi non giocanti (neutri, alleati o nemici) che potranno, al momento dell’interazione, mostrare un messaggio, donare degli oggetti oppure ingaggiare un combattimento. Inoltre, sarà possibile interagire con gran parte degli elementi di arredo presenti in stanza, tra cui elementi come armature o vasi contenenti oggetti collezionabili oppure tappeti o botole che possono celare al loro interno nemici.
+\newline Inoltre, gli verranno presentate delle stanze quasi completamente interattive. In particolare, ci saranno dei personaggi non giocanti (neutri, alleati o nemici) che potranno, al momento dell’interazione, mostrare un messaggio, donare degli oggetti oppure ingaggiare un combattimento. Inoltre, sarà possibile interagire con gran parte degli elementi di arredo presenti in stanza, tra cui elementi come armature o vasi, che possono contenere oggetti collezionabili, oppure tappeti o botole, che possono celare al loro interno dei nemici.
 %
-\newline Il combattimento si svolge per turni. Ad ogni turno, il giocatore può decidere se attaccare o chiedere pietà al nemico, così come può navigare il suo inventario e usare oggetti senza perdere il diritto al turno. Il nemico, in caso venga chiesta pietà, potrebbe concederla oppure rifiutarla e attaccare immediatamente il giocatore. 
+\newline Il combattimento si svolge a turni. Ad ogni turno, il giocatore può decidere se attaccare o chiedere pietà al nemico, così come può navigare il suo inventario e usare oggetti senza perdere il diritto al turno. Il nemico, in caso venga chiesta pietà, potrebbe concederla oppure rifiutarla e attaccare immediatamente il giocatore, che perde il turno. 
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
 	\item I nemici all'interno del gioco saranno di varie tipologie, e dovranno offrire un comportamento variabile all'utente per quanto riguarda le richieste di pietà;
 	\item L'arredo delle stanze viene generato casualmente garantendo l'assenza di sovrapposizioni, e le diverse tipologie di elementi di arredo devono offrire diversi scenari di interazione;
 	\item Le quest devono essere di diverse tipologie e richiedere diverse azioni da parte del giocatore;
-	\item Il combattimento finale deve poter offrire una scelta al giocatore, che sarà in grado di avviare finali diversi.
+	\item Il combattimento finale deve offrire al giocatore una scelta, che comporta finali diversi.
 \end{itemize}
 
 \subsubsection{Requisiti non funzionali}
@@ -53,15 +50,15 @@ Il software realizzato è un videogioco 2D con vista dall’alto. Il suo svolgim
 
 \section{Modello del Dominio}
 
-Il dominio applicativo dell’applicazione viene modellato in ogni momento dal concetto di stanza, ovvero il “container” all’interno di cui si svolge la fase centrale del gioco. All’interno della stanza, oltre al personaggio principale, si trovano altre entità, che possono essere personaggi viventi non giocanti (nemici o generici NPC) oppure elementi di arredo. Il giocatore può possedere nel suo inventario diversi oggetti, che vengono anch’essi modellati come entità. In questo scenario, diventa possibile gestire tramite la stanza e le informazioni che ogni entità offre l’intero modello del dominio, estraendo le istanze di interesse per gestire le situazioni contingenti come il combattimento. 
+Il dominio applicativo dell’applicazione viene modellato in ogni momento dal concetto di stanza, ovvero il “container” all’interno del quale si svolge la fase centrale del gioco. Nella stanza, oltre al personaggio principale, sono presenti altre entità, che possono essere personaggi viventi non giocanti (nemici o generici NPC) oppure elementi di arredo. Il giocatore può possedere nel suo inventario diverse tipologie di oggetti, che vengono anch’essi modellati come entità. In questo scenario, diventa possibile gestire, tramite la stanza e le informazioni che ogni entità offre, l’intero modello del dominio, estraendo le istanze di interesse per gestire le situazioni contingenti come il combattimento. 
 %
-\newline Per quanto riguarda l’arredamento, le entità si dividono in tre tipologie fondamentali: arredamento interattivo, che blocca il movimento ma permette interazione, e può rilasciare un oggetto che il giocatore aggiungerà al proprio inventario al momento dell’interazione; arredamento calpestabile, che non ostruisce il movimento e permette interazione, ma può nascondere un nemico con cui viene avviato il combattimento non appena vi si interagisce; arredamento passivo, che ostacola il movimento e non permette alcun tipo di interazione. 
+\newline Per quanto riguarda l’arredamento, le entità si dividono in tre tipologie fondamentali: arredamento interattivo, che blocca il movimento ma permette l'interazione e può rilasciare un oggetto, che verrà aggiunto all’inventario del giocatore; arredamento calpestabile, che non ostruisce il movimento e permette l'interazione, ma può nascondere un nemico, con cui viene avviato il combattimento non appena vi si interagisce; arredamento passivo, che ostacola il movimento e non permette alcun tipo di interazione. 
 %
-\newline Per quanto riguarda i nemici, ad ognuno viene associato un tipo, che ne definisce il livello di difficoltà. Quando viene sconfitto, un nemico rilascia un oggetto di inventario che il giocatore aggiungerà al proprio inventario al momento della vittoria. Ad ogni nemico viene poi associato un comportamento in caso di richieste di pietà, indipendente dal tipo e proprio di ogni singola istanza. In caso il giocatore venga risparmiato dal nemico, non ottiene il suo bottino.
+\newline Per quanto riguarda i nemici, ad ognuno corrisponde un tipo, che ne definisce il livello di difficoltà. Quando viene sconfitto, un nemico rilascia un oggetto che viene aggiunto all’inventario del giocatore al momento della vittoria. Ad ogni nemico viene anche associato un comportamento in caso di richiesta di pietà, indipendente dal tipo e proprio di ogni singola istanza. Nel caso in cui il giocatore venga risparmiato dal nemico, non ottiene il suo bottino.
 %
-\newline Gli NPC modellano tutti i personaggi non ostili all’interno del gioco, con cui sarà possibile interagire in ogni momento. Anche loro possono rilasciare oggetti di inventario al momento dell’interazione, oppure mostrare messaggi, che potranno o meno aiutare il giocatore a completare la quest.
+\newline Gli NPC modellano tutti i personaggi non ostili all’interno del gioco, con cui è possibile interagire in ogni momento. Anche loro possono rilasciare oggetti di inventario al momento dell’interazione, oppure mostrare messaggi, che potranno aiutare o meno il giocatore a completare la quest.
 %
-\newline Il personaggio principale, che si muove nella mappa e interagisce con il resto delle entità presenti, può portare con sé alcuni oggetti di inventario ottenuti interagendo con le altre entità. Questi oggetti possono essere di vario tipo, e a seconda della tipologia offrire diversi effetti (cura, aumento del danno per le armi e protezione per le armature, oppure nessuno per gli oggetti collezionabili). Le armi e le armature, per essere effettive, devono essere equipaggiate, e hanno una durabilità limitata. Al momento dell’uso dell’oggetto, il suo effetto viene attivato sul giocatore. Un oggetto qualsiasi può anche essere scartato per liberare spazio nell’inventario, che ha capacità limitata.
+\newline Il personaggio principale, che si muove nella mappa e interagisce con il resto delle entità presenti, può portare con sé alcuni oggetti di inventario ottenuti interagendo con le altre entità. Questi oggetti possono essere di vario tipo e, a seconda della tipologia, avere diversi effetti (cura, aumento del danno per le armi e protezione per le armature, oppure nessuno per gli oggetti collezionabili). Le armi e le armature, per essere effettive, devono essere equipaggiate, e hanno una durabilità limitata. Al momento dell’uso dell’oggetto, il suo effetto viene attivato sul giocatore. Un oggetto qualsiasi può anche essere scartato per liberare spazio nell’inventario, che ha capacità limitata.
 
 
 \begin{figure}[H]
@@ -82,9 +79,9 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 %
 \newline Il Controller, che conserva il riferimento alla stanza in cui attualmente si trova il gioco, gestisce al suo interno le transizioni di stato per le varie fasi del gameplay, interrogando la View per mostrare le interfacce corrette e richiedendo al Model eventuali modifiche. Il Controller è anche responsabile della temporizzazione dell’aggiornamento del motore di gioco, e della traduzione delle entità del Model in elementi rappresentabili correttamente dalla View.
 %
-\newline La View offre un entry point centrale da cui è possibile richiedere di mostrare le varie interfacce, o l’accesso ai loro riferimenti per chiamare procedure proprie di tali istanze. Nell’architettura realizzata, la View agisce come elemento passivo ricevendo i dati da mostrare dal Controller tramite opportune interrogazioni. La gestione dell’input permette alla View di comunicare particolari eventi al Controller, che li gestirà e ne rifletterà eventualmente gli effetti sul Model.
+\newline La View offre un entry point centrale da cui è possibile richiedere di mostrare le varie interfacce o di ottenere l’accesso ai loro riferimenti per chiamare procedure proprie di tali istanze. Nell’architettura realizzata, la View agisce come elemento passivo ricevendo i dati da mostrare dal Controller tramite opportune interrogazioni. La gestione dell’input permette alla View di comunicare particolari eventi al Controller, che li gestirà e ne rifletterà eventualmente gli effetti sul Model.
 %
-\newline Nella realizzazione dell’architettura MVC, modificare la View non impatta minimamente il Model, dal momento che è solamente il Controller a dialogare con questa componente. Dall’altro lato, il Controller potrebbe essere impattato da una modifica della View radicale (come per esempio trasformare la GUI attiva in un’interfaccia reattiva, oppure la rimozione dei suoni), mentre non sarebbe impattato da modifiche nelle tecniche implementative della GUI - come per esempio una modifica della libreria grafica - a patto che sia in grado di rispettare il contratto stabilito dalle due interfacce (ad esempio accettare gli stessi tipi di chiamate parametrizzate).
+\newline Nella realizzazione dell’architettura MVC, modificare la View non impatta minimamente il Model, dal momento che è solamente il Controller a dialogare con questa componente. Dall’altro lato, il Controller potrebbe essere impattato da una modifica della View radicale (come per esempio trasformare la GUI attiva in un’interfaccia reattiva, oppure la rimozione dei suoni), mentre non dovrebbe subire alcun cambiamento se venissero modificate le tecniche implementative della GUI - come per esempio una modifica della libreria grafica -, a patto che la GUI modificata sia in grado di rispettare il contratto stabilito dalle due interfacce (ad esempio accettare gli stessi tipi di chiamate parametrizzate).
 
 
 \begin{figure}[H]
@@ -228,7 +225,7 @@ internamente alla factory attraverso una mappa che contiene per ogni tipo divers
 	\label{img:furnitureSimpleFactory}
 \end{figure}
 
-\subsubsection{Gestione panelli di gioco}
+\subsubsection{Gestione pannelli di gioco}
 
 \paragraph{Problema} Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
 era proprio quello di capire come gestire nel migliore dei modi il passaggio da una pannello di gioco ad 
@@ -314,22 +311,97 @@ Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati
 \paragraph{Problema} Durante la fase di esplorazione del gioco, ad ogni frame, il contenuto della stanza deve essere renderizzato traducendo le entità del Model in elementi rappresentabili dalla View.
 \paragraph{Soluzione} Per risolvere il problema riducendo al minimo le dipendenze, si è introdotta una classe che fa da Locator per le texture. In questo modo, il Controller, reificato in \textit{GameLoop}, può accedere al Model per interrogarlo sul contenuto della stanza, e inviare il contenuto del Model processato dal Locator alla View per il rendering. Ciò significa che il Main Loop rimane completamente agnostico rispetto al formato richiesto dalla View, delegando il compito di traduzione da classi di Model a risorse di View al Locator. In questo modo, una sostituzione anche in blocco della View comporterebbe necessità di modifica solo all'interno del Locator, evitando così di impattare Controller e Model.
 
+\subsection{Sara Panfini}
+
+\subsubsection{Gestione dei Nemici}
+
+\paragraph{Problema} Il problema da affrontare è la gestione dei nemici, che possono avere caratteristiche variabili, come
+la vita, il danno o gli oggetti che offrono come ricompensa dopo un combattimento, in base alla loro tipologia e livello di difficoltà.
+Inoltre, la creazione dei nemici dovrebbe essere gestita in modo da poter essere facilmente estendibile, così da consentire l'aggiunta
+di nuove tipologie di nemici senza dover necessariamente modificare il codice già esistente.
+\paragraph{Soluzione} La soluzione adottata è quella di utilizzare il \textit{Factory Pattern} e implementare una factory di nemici nell'interfaccia
+\textit{EnemyFactory} e nella sua relativa implementazione \textit{EnemyFactoryImpl}.\newline Inoltre, sono state sfruttate delle enumerazioni per
+gestire le varie tipologie e difficoltà dei nemici.\newline Questa soluzione è stata scelta per rendere la creazione più flessibile e modulare, centralizzando
+la logica di creazione dei nemici in modo da avere un sistema maggiormente scalabile.\newline
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/EnemyUML.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:EnemyUML}
+\end{figure}
+
+
+\subsubsection{Gestione degli NPC neutri}
+\paragraph{Problema} Durante il gioco gli NPC sono in grado di supportare diversi tipi di interazione; ad esempio, possono regalare oggetti o assegnare le quest al giocatore.
+Il sistema dovrebbe, quindi, gestire i diversi comportamenti in maniera efficiente, cioè in modo che sia possibile introdurre facilmente nuove tipologie di interazioni.
+\paragraph{Soluzione} Per riuscire a gestire al meglio i comportamenti variabili degli NPC, è stato utilizzato lo \textit{Strategy Pattern}.
+In questo modo si riescono a stabilire diverse tipologie di comportamenti, che questi personaggi possono assumere in risposta all'interazione con il giocatore.
+In particolare, l'interfaccia \textit{NpcBehavior} offre un metodo base per interagire con tutti gli NPC e deve essere poi implementata dalle classi che vanno a gestire 
+le specifiche tipologie di comportamento (\textit{DefaultBehavior}, \textit{LootBehavior}, ...).\newline
+Inoltre, per crearli (con i comportamenti predefiniti) viene nuovamente utilizzato il \textit{Factory Pattern}.\newline
+Questa soluzione implementativa rende la gestione degli NPC facilmente estendibile, dato che per definire ulteriori comportamenti si possono direttamente 
+creare nuove particolari implementazioni dell'interfaccia \textit{NpcBehavior} e l'intera logica di creazione degli NPC si trova nella classe \textit{NpcFactoryImpl}.\newline
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/NpcUML.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:NpcUML}
+\end{figure}
+
+
+\subsubsection{Gestione della mappa di gioco}
+\paragraph{Problema} La problematica da affrontare è la gestione delle stanze del castello (mappa del gioco).
+Durante la sua avventura, il giocatore deve, infatti, essere in grado di esplorare le diverse stanze, ognuna delle quali 
+ha al suo interno elementi di arredo e personaggi non giocanti con cui è possibile interagire.
+Il sistema deve, perciò, essere in grado di garantire un corretto posizionamento e anche una distribuzione logica di tutte le entità entro i confini della stanza.\newline
+In aggiunta, è necessario avere un sistema che gestisca l'eventuale assegnazione delle quest a ciascun ambiente di gioco.
+\paragraph{Soluzione} La soluzione proposta prevede l'implementazione dell'interfaccia \textit{Room} e della relativa classe.
+Questa classe fornisce la rappresentazione di una generica stanza e si occupa di mantenere tutte le entità presenti e la loro relativa posizione al suo interno, sfruttando anche
+l'enumerazione \textit{CellType} che gestisce lo stato di ogni cella della mappa.\newline
+La creazione delle stanze viene realizzata dalla classe \textit{RoomGenerator}, che ne gestisce anche il popolamento e l'eventuale assegnazione delle quest.\newline
+Per gestire le quest è stata realizzata la classe \textit{QuestManager}, che si occupa di associare o meno una specifica missione ad ogni stanza.
+Questa soluzione permette di racchiudere in una unica classe l'intera logica di assegnazione delle quest e ne facilita anche l'introduzione di nuove tipologie.\newline
+Per popolare ciascuna stanza vengono usate le classi \textit{FurnitureGenerator} e \textit{LivingBeingsGenerator}.
+Queste classi si occupano della generazione e della disposizione, in maniera pseudo-casuale, di tutte le entità - attraverso l'uso delle specifiche \textit{Factory} -, verificando la validità e la disponibilità
+delle posizioni che gli vengono assegnate. La classe \textit{LivingBeingsGenerator}, inoltre, sfrutta una logica di suddivisione di ciascuna stanza in aree per fare in modo che la 
+distribuzione dei personaggi sia in linea di massima equilibrata.
+Con questo approccio si è cercato di ottenere una generazione delle stanze abbastanza dinamica, che consente, cioè, di averne configurazioni diverse, 
+e di centralizzare la logica necessaria in modo da agevolare anche future possibili modifiche.\newline
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/RoomUML.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:RoomUML}
+\end{figure}
+
+
+\subsubsection{Gestione delle Quest}
+\paragraph{Problema} Il problema è gestire le varie tipologie di quest assegnate alle stanze del gioco. È necessario creare un sistema che consenta di definire 
+e verificare il completamento di ogni tipo di quest cercando di evitare ripetizioni di codice e di avere una buona estendibilità.
+\paragraph{Soluzione} Come per gli NPC, anche in questo caso si è fatto uso dello \textit{Strategy Pattern} per modellare il concetto di obiettivo.
+Si ha, quindi, l'interfaccia \textit{ObjectiveStrategy} che viene implementata dalle classi che rappresentano gli specifici obiettivi da completare per superare le quest.
+In questo modo, la singola classe \textit{QuestImpl} riesce a gestire tutte le tipologie di quest, che vengono poi create con la \textit{QuestFactory}.
+
+
 \chapter{Sviluppo}
 
 \section{Testing automatizzato}
 
-Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit e si sono realizzati test su quasi tutte le classi di Model e Controller. Ciò è stato fatto per garantire il corretto funzionamento dell’applicazione, e per avere la certezza che gli eventuali problemi riscontrati durante il gioco non fossero dovuti a mancanze di logica implementativa, quanto a problematiche di visualizzazione. 
+Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit e si sono realizzati test su quasi tutte le classi di Model e Controller. Ciò è stato fatto per garantire il corretto funzionamento dell’applicazione e per avere la certezza che gli eventuali problemi riscontrati durante il gioco non fossero dovuti a mancanze di logica implementativa, quanto a problematiche di visualizzazione. 
 %
 \newline La View, invece, è stata testata manualmente in fase di sviluppo, e poi in fase di collaudo del software, perché personalmente non siamo riusciti ad approfondire le dinamiche di testing automatizzato che avrebbero permesso di testare automaticamente anche quella parte del software.
 %
 \newline In linea generale, gli aspetti su cui il testing si è maggiormente soffermato sono stati i seguenti:
 
 \begin{itemize}
-	\item Generazione della mappa, movimento e interazioni al suo interno. Particolarmente, si è verificato che il movimento e le interazioni non generassero comportamenti imprevisti e che si riflettessero correttamente sugli aggiornamenti del Model.
-	\item Combattimento. In particolare, il testing si concentra sul mantenimento dell’ordine dei turni per evitare comportamenti imprevisti, e sul corretto inserimento in inventario del bottino dei nemici sconfitti.
+	\item Generazione della mappa, movimento e interazioni al suo interno. In particolare, si è verificato che il movimento e le interazioni non generassero comportamenti imprevisti e che si riflettessero correttamente sugli aggiornamenti del Model.
+	\item Combattimento. In particolare, il testing si concentra sul mantenimento dell’ordine dei turni, per evitare comportamenti imprevisti, e sul corretto inserimento in inventario del bottino dei nemici sconfitti.
 	\item Protagonista. In particolare, si è testato il sistema di gestione della vita del protagonista, così come del suo inventario. Nei controlli sull’inventario, si è verificato il corretto utilizzo degli oggetti curativi, così come delle armi e armature, per garantire comportamenti consistenti in fase di combattimento.
 	\item Input utente. Si sono testati i Controller che svolgono la funzione di Observer, per garantire la corretta gestione degli input.
-	\item Creazione delle istanze. Avendo fatto largo uso del Pattern Factory, si è deciso di testare i metodi di generazione degli oggetti per verificare l’effettiva consistenza delle istanze create e garantire prevedibilità in fase di gioco.
+	\item Creazione delle istanze. Avendo fatto largo uso del \textit{Factory Pattern}, si è deciso di testare i metodi di generazione degli oggetti per verificare l’effettiva consistenza delle istanze create e garantire prevedibilità in fase di gioco.
 \end{itemize}
 
 \section{Note di sviluppo}
@@ -400,6 +472,30 @@ Per la realizzazione della classe BackgroundTile (Permalink:  \url{https://githu
 \textbf{Modellazione molteplici menu}: Utilizzo model per gestire molteplici menu.
 Permalink \url{https://github.com/luca-casadei/OOP23-the-exiled/blob/3980cb23272808019d315d20593faae31b543f89/src/main/java/unibo/exiled/model/menu/MenuModelImpl.java#L6-L33}
 
+
+\subsection{Sara Panfini}
+Seguono alcuni esempi di parti di codice in cui vengono usate funzionalità avanzate.
+\begin{itemize}
+	\item \textbf{Espressioni Lambda e Stream}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/inventory/InventoryItemFactoryImpl.java#L84-L86}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/map/RoomImpl.java#L158-L161}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/quest/DefeatEnemyObjective.java#L32-L35}
+	
+	\item \textbf{Optional}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/map/RoomGenerator.java#L57-L58}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/map/FurnitureGenerator.java#L55}
+	
+	\item \textbf{Record}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/entities/enemies/EnemyFactoryImpl.java#L100}
+	
+	\item \textbf{Java Wildcards}
+	\newline\url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/model/quest/ObjectiveStrategy.java#L25}
+\end{itemize}
+
+\subsubsection{Codice preso da altri}
+Per la realizzazione della classe \textit{Pair}: \url{https://bitbucket.org/mviroli/oop2023-esami/src/c5edbdde70b6a4ead339098297c82ca7372c96f6/a01a/e1/Pair.java#lines-9:55}
+
+
 \chapter{Commenti finali}
 
 \section{Autovalutazione e lavori futuri}
@@ -430,6 +526,26 @@ Personalmente, questo è stato il primo progetto di gruppo di queste dimensioni 
 \newline Per quanto riguarda le dinamiche di gruppo, posso dirmi abbastanza soddisfatto, soprattutto per il fatto che, anche se in alcune fasi vi sono state divergenze di vedute su alcune tematiche, non si sia mai arrivati a situazioni critiche che abbiano pregiudicato lo svolgimento del lavoro. Fin da prima di presentare il progetto, però, sono stato io a presentare l'idea su cui poi si è sviluppato il gioco, e durante il progetto - complice la fiducia che i miei compagni hanno riposto in me - ho assunto il ruolo di "coordinatore" del lavoro. Questo ha però inevitabilmente significato che gran parte delle idee su cui si basa il modello del gioco siano arrivate da me, e che poi io mi sia trovato - soprattutto nelle fasi finali - ad affrontare personalmente le fasi di sviluppo più delicate, come per esempio la soluzione di possibili bug sottolineati dagli strumenti di analisi statica del codice oppure la soluzione del problema di mancato caricamento delle risorse che si è presentata quando abbiamo assemblato il jar per la consegna finale.
 \newline Nel complesso però, mi sento di dire che il risultato finale rispecchia abbastanza l'idea che avevo del gioco prima di iniziare lo sviluppo, e che ho trovato stimolante il processo di realizzazione. Per come è strutturato il software ci sarebbe margine per allargarlo e portarlo a qualcosa di più di una demo da qualche minuto, anche se dubito che possa accadere. D'altro canto, personalmente vedo rafforzata la mia passione verso il mondo dello sviluppo di videogiochi, e sono volenteroso di portare avanti questa passione anche con progetti personali che possano permettermi di approfondire ulteriormente parti dello sviluppo che per motivi di suddivisione del lavoro ho toccato meno.
 
+
+\subsection{Sara Panfini}
+Questo progetto è stato sicuramente uno degli scogli più grandi che ho dovuto affrontare nel 
+mio percorso fino ad ora.\newline 
+Inizialmente, non mi sentivo preparata e non credevo di avere le conoscenze
+per affrontare un progetto di questa portata. Ciò ha reso le prime fasi di lavoro particolarmente complesse
+per me e, perciò, durante quel periodo sento di non aver contribuito abbastanza e di non 
+essere stata di grande aiuto al gruppo. Con il tempo, però, sono riuscita a prendere consapevolezza e ritengo
+di essere stata in grado di apportare un buon contributo al progetto, anche se avrei sicuramente potuto gestire 
+meglio alcune cose, come l'organizzazione del lavoro e la gestione dei tempi.\newline
+Nonostante, generalmente, io non mi trovi a mio agio con i lavori di gruppo, considero questa comunque come
+un'esperienza, nel complesso, positiva. Ci sono, ovviamente, state opinioni contrastanti su alcuni aspetti
+dello sviluppo del progetto, ma, nonostante ciò, abbiamo sempre cercato di lavorare insieme nel rispetto degli 
+altri componenti del gruppo.\newline
+In generale, quindi, questo progetto ha rappresentato una grande sfida per me e, a prescindere dalle varie
+difficoltà, sono soddisfatta di come sono riuscita ad affrontarla. Lavorare allo sviluppo di un sistema di queste
+dimensioni mi ha stimolato molto e mi ha anche iniziato al mondo dei videogiochi, che non conoscevo e che ora mi affascina molto.
+Nel complesso, credo che questa esperienza mi abbia fatto imparare molto e mi abbia fornito gli strumenti 
+per riuscire ad affrontare progetti futuri con maggiore preparazione e con un approccio più consapevole.
+
 \section{Difficoltà incontrate e commenti per i docenti}
 
 Permettere la consegna anche durante i periodi di lezione.
@@ -437,11 +553,11 @@ Permettere la consegna anche durante i periodi di lezione.
 \appendix
 \chapter{Guida utente}
 
-Durante il gioco l'utente deve attraversare delle stanze, in cui deve completare eventuali quest.
+Durante il gioco l'utente deve esplorare le stanze del castello e eventualmente completare una quest per poter passare alla stanza successiva.
 \newline Nei menu, come nel combattimento, l'input viene accettato tramite mouse, con dei clic sui bottoni che rappresentano l'azione desiderata.
 \newline Durante l'esplorazione, il giocatore si sposta con WASD, interagisce con la cella che guarda con E e apre l'inventario con I.
-\newline Per superare ciascuna stanza, deve completare la quest(se presente) che gli viene presentata dall'NPC fermo all'entrata. Dopo aver completato la quest, deve raggiungere il tappeto situato a destra della stanza, e interagire da sopra la casella al suo entremo destro per proseguire nella stanza successiva.
-\newline All'interno dell'inventario, gli oggetti vengono scelti con le frecce verticali, e si possono equipaggiare con ENTER oppure scartare con BACKSPACE. Un oggetto che non abbia effetto, quando usato, viene "consumato" e non risulta quindi piu' disponibile.
+\newline Per superare ciascuna stanza, deve completare la quest (se presente) che gli viene presentata dall'NPC fermo all'ingresso. Dopo aver completato la quest, deve raggiungere il tappeto situato a destra della stanza, che corrisponde all'uscita, ed interagire da sopra la casella al suo estremo destro per poter proseguire nella stanza successiva.
+\newline All'interno dell'inventario, gli oggetti vengono scelti con le frecce verticali, e si possono equipaggiare con ENTER oppure scartare con BACKSPACE. Un oggetto che non ha effetto, quando viene usato, viene "consumato" e non risulta quindi piu' disponibile.
 
 \bibliographystyle{alpha}
 \bibliography{report}
