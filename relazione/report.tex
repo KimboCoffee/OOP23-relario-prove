@@ -97,61 +97,95 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 \section{Design dettagliato}
 
 \subsection{Lorenzo Cinelli}
-Mi sono occupato della realizzazione del controllo di collisioni e interazioni tra i living being e le altre entità presenti nella stanza, 
-dell'interfaccia utente per l'inventario, delle scene di transizione tra le varie fasi di gioco, della visualizzazione di animazioni durante il combattimento
-e della gestione dei suoni e canzoni per le varie fasi del gioco.
 
-\textbf{Collisioni e Interazioni}
-Il giocatore e gli altri esseri viventi possono muoversi all'interno di una stanza ma non possono coesistere 
+\subsubsection{Collisioni e Interazioni}
+
+\paragraph{Problema:} Il giocatore e gli altri esseri viventi possono muoversi all'interno di una stanza ma non possono coesistere 
 contemporaneamente nello stesso punto della stanza insieme ad un altro essere vivente o a una parte di arredamento (non calpestabile).
 Il giocatore e gli altri esseri viventi possono interagire con un'entità (che può essere un altro essere vivente o un pezzo di arredamento)
 di fronte ad egli. 
-Il controllo delle collisioni, che decreta se il movimento del soggetto è consentito oppure no, deve quindi prendere in considerazione
-tutti gli esseri viventi presenti in mappa, l'arredamento e la dimensione della stanza e verificare che il soggetto si muoverà in un posto consentito.
-Il controllo delle interazioni, che decreta se ci si trova di fronte ad un'entità interattiva, prende in considerazione
-tutti gli esseri viventi presenti in mappa e l'arredamento. 
+\paragraph{Soluzione:} Il controllo delle collisioni effettuato nel metodo \textit{canMove} - che decreta se il movimento del soggetto è consentito oppure no - deve quindi prendere 
+in considerazione tutti gli esseri viventi presenti in mappa, l'arredamento e la dimensione della stanza e verificare che il soggetto si muoverà in un posto consentito.
+Il controllo delle interazioni effettuato nel metodo \textit{canInteract} - che decreta se ci si trova di fronte ad un'entità interattiva - prende in 
+considerazione tutti gli esseri viventi presenti in mappa e l'arredamento. 
 È stata fatta la scelta di evitare di avere interazioni attive da parte delle entità non giocanti (NPC), di conseguenza solo il protagonista interagirà
 attivamente con le varie entità, tuttavia con la stessa soluzione sarebbe possibile avere interazioni attive anche da parte degli altri esseri viventi.
-IMMAGINE
-PATTERN
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/interactions.png}
+	\caption{Schema UML delle classi e interfacce coinvolte nelle collisioni ed interazioni}
+	\label{img:template}
+\end{figure}
 
-\textbf{GUI Inventario}
-Il giocatore durante il gioco e specialmente durante i combattimenti ha la necessità di interagire con gli oggetti
-che ha ottenuto. 
-L'inventario è guidato da input da tastiera che vengono gestiti tramite un key listener. Questi vengono passati al
-controller dell'inventario che implementa la classe Observer. Il controller si occupa di applicare le modifiche arrivate tramite
-l'evento di input all'inventario e riflette queste modifiche nella visualizzazione grafica, aggiornandola coi dati più recenti.
-Per facilitare la creazione dell'interfaccia grafica è stata utilizzata una factory per la creazione dei vair componenti
-interni della GUI.
-IMMAGINE
-PATTERN Observer e Factory.
+\subsubsection{Input da tastiera nell'utilizzo dell'Inventario}
+\paragraph{Problema:} Il giocatore comanda le interazioni con l'inventario - utilizzabile durante la fase di esplorazione della mappa o di combattimento - tramite input da tastiera
+catturati dal \textit{InventoryController}.
+\paragraph{Soluzione:} La comunicazione dell'input viene fatta attraverso il pattern \textit{Observer}. La classe \textit{InventoryViewImpl} fa da \textit{observable} tramite il 
+\textit{KeyListener} correlato trasmette gli eventi registrati all'\textit{InventoryController} il quale fa da \textit{observer}, implementandone l'interfaccia.
+Nello specifico per avere una soluzione estendibile si utilizza il \textit{GameKeyListener} - il quale estende l'interfaccia \textit{KeyListener} - che filtra i tasti di input 
+traducendoli in un evento da dare in pasto agli Observer. 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/observer-inventory.png}
+	\caption{Schema UML delle classi e interfacce coinvolte nell'input per l'inventario}
+	\label{img:template}
+\end{figure}
 
-\textbf{Scene di transizione}
-Le scene di transizione riguardano l'introduzione, i passaggi da una stanza all'altra e gli scenari riguardanti la fine del gioco.
-La scena iniziale ha lo scopo di introdurre il gioco spiegandone l'obiettivo. Gli scenari della fine del gioco possono essere due
-differenti in caso di vittoria - dati in base a come la vittoria è stata ottenuta - oppure quello di sconfitta, in caso non si riesca
-a vincere la battaglia finale contro il re.
-Le scene vengono chiamate in base allo stato del gioco da show() nell'apposito controller. Le scene sono temporizzate, ed al termine
-di questo tempo terminano con la chiamata al controller del metodo progress() per passare alla fase di gioco successiva, specificando
-a quale fase passare.
-IMMAGINE
-PATTERN
+\subsubsection{Creazione dei componenti per l'interfaccia dell'inventario}
+\paragraph{Problema:} L'interfaccia grafica dell'inventario è composta da diversi componenti.
+\paragraph{Soluzione:} Per alleggerire la classe \textit{InventoryViewImpl} è stata creata una classe per fornire i vari componenti. Questa classe - \textit{InventoryViewFactoryImpl} -
+funge da factory per l'interfaccia dell'inventario, in quando è adibita alla creazione dei vari componenti dell'interfaccia, quali la barra dei comandi, la barra della vita,
+la lista degli oggetti contenuti, la descrizione del singolo oggetto e gli oggetti equipaggiati.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/inventory-factory.png}
+	\caption{Schema UML delle classi e interfacce coinvolte per la creazione dei componenti dell'interfaccia dell'inventario}
+	\label{img:template}
+\end{figure}
 
-\textbf{Animazioni di combattimento}
-Le animazioni di combattimento vengono mostrate qualora il protagonista o un nemico sferri un attacco. 
-IMMAGINE
-PATTERN
+\subsubsection{Scene di transizione}
+\paragraph{Problema:} I vari stati del gioco sono intervallati da scene di transizione. 
+\paragraph{Soluzione:} Le scene di transizione si possono suddividere in tre tipologie: l'introduzione, l'avanzamento di stanza ed il finale. Queste sono composte da una o più
+immagini oltre che eventualmente da un effetto sonoro. Più nello specifico le scene di fine gioco possono essere 3: due differenti in caso di vittoria, definite in base al modo in cui 
+si è vinto il gioco, e la terza che rappresenta il caso di sconfitta.
+Le varie scene vengono chiamate dal metodo \textit{show} dell'apposito controller, a cui si passa lo stato attuale del gioco. In base allo stato del gioco il controller stabilisce
+quale scena sia da mostrare e in quale stato andare in seguito alla visualizzazione della scena. 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/cutscene.png}
+	\caption{Schema UML delle classi e interfacce coinvolte per le scene di transizione}
+	\label{img:template}
+\end{figure}
 
-\textbf{Gestione dei suoni}
+\subsubsection{Animazioni di combattimento}
+\paragraph{Problema:} Durante gli attacchi di un combattimento si mostrano delle animazioni accompagnate da un effetto sonoro.
+\paragraph{Soluzione:} La visualizzazione delle animazioni viene effettuata al momento dell'attaacco di un'entità verso l'avversario. Vengono visualizzate animazioni differenti
+a seconda della direzione dell'attacco (dal giocatore al nemico o viceversa). L'effetto sonoro riprodotto è scelto in modo pseudo casuale tra una libreria di possibili suoni.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/combat-animations.png}
+	\caption{Schema UML delle classi e interfacce coinvolte per le animazioni di combattimento}
+	\label{img:template}
+\end{figure}
+
+\subsubsection{Gestione delle colonne sonore}
+\paragraph{Problema:} Durante le varie fasi del gioco sono presenti diverse colonne sonore.
+\paragraph{Soluzione:} Le varie classi di view riproducono la colonna sonora corrispondente allo stato del gioco in cui si trovano fino a ché lo stato non cambia.
 La gestione dei suoni passa da un sound locator, che prende le risorse e le trasforma in clip, e poi ogni clip è gestita internamente
-alla singola view in cui viene eseguita. 
-Inizialmente l'idea era di avere un'unica classe che gestisse interamente i suoni, tuttavia questo portava a dei problemi esponendo
-la rappresentazione interna della classe, quindi ho optato per gestire i singoli oggetti all'interno delle rispettive view. 
-I suoni sono suddivisi in colonne sonore ed effetti. Le colonne sonore sono differenti per il menu iniziale, per le stanze e per i combattimenti
-- con una dedicata al combattimento col boss - mentre gli effetti sono presenti durante l'avanzamento di stanza, durante le animazioni di combattimento
-e dirante le scene di fine gioco - separando la vittoria dalla sconfiitta.
-IMMAGINE
-PATTERN
+alla singola view in cui viene eseguita. Più nello specifico c'è una colonna sonora per il menù iniziale, una per la fase di esplorazione del gioco, e due differenti per la fase
+di combattimento, distinguendo se il nemico sia il Boss oppure no.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/lorenzo/soundtrack.png}
+	\caption{Schema UML delle classi e interfacce coinvolte per le colonne sonore}
+	\label{img:template}
+\end{figure}
+
+\subsubsection{Caricamento delle risorse}
+\paragraph{Problema:} Le risorse - immagini e suoni - devono essere trovate ed aperte.
+\paragraph{Soluzione:} Sono state create due classi - rispettivamente \textit{ImageLocators} e \textit{SoundLocators} - per restituire le risorse aperte ed utilizzabili alle 
+diverse view. Queste classi vengono utilizzate per le scene di transizione, le animazioni di combattimento e le colonne sonore. 
+
 \subsection{Mazuru Mihai}
 
 \subsubsection{Furniture}
