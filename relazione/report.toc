@@ -1,0 +1,48 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {chapter}{\numberline {1}Analisi}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Descrizione e requisiti}{2}{section.1.1}%
+\contentsline {subsubsection}{Requisiti funzionali}{2}{section*.2}%
+\contentsline {subsubsection}{Requisiti non funzionali}{3}{section*.3}%
+\contentsline {section}{\numberline {1.2}Modello del Dominio}{3}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Design}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Architettura}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Design dettagliato}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Mazuru Mihai}{6}{subsection.2.2.1}%
+\contentsline {subsubsection}{Furniture}{6}{section*.4}%
+\contentsline {paragraph}{Problema}{6}{section*.5}%
+\contentsline {paragraph}{Soluzione}{6}{section*.6}%
+\contentsline {paragraph}{Problema}{7}{section*.7}%
+\contentsline {paragraph}{Soluzione}{7}{section*.8}%
+\contentsline {subsubsection}{Gestione panelli di gioco}{8}{section*.9}%
+\contentsline {paragraph}{Problema}{8}{section*.10}%
+\contentsline {paragraph}{Soluzione}{8}{section*.11}%
+\contentsline {subsubsection}{Gestione combattimento}{9}{section*.12}%
+\contentsline {paragraph}{Problema}{9}{section*.13}%
+\contentsline {paragraph}{Soluzione}{9}{section*.14}%
+\contentsline {subsection}{\numberline {2.2.2}Kimi Osti}{10}{subsection.2.2.2}%
+\contentsline {subsubsection}{Input da tastiera nella fase di esplorazione}{10}{section*.15}%
+\contentsline {paragraph}{Problema}{10}{section*.16}%
+\contentsline {paragraph}{Soluzione}{11}{section*.17}%
+\contentsline {subsubsection}{Creazione e gestione dei componenti per l'interfaccia di esplorazione}{11}{section*.18}%
+\contentsline {paragraph}{Problema}{11}{section*.19}%
+\contentsline {paragraph}{Soluzione}{11}{section*.20}%
+\contentsline {subsubsection}{Gestione del Main Loop}{12}{section*.21}%
+\contentsline {paragraph}{Problema}{12}{section*.22}%
+\contentsline {paragraph}{Soluzione}{12}{section*.23}%
+\contentsline {subsubsection}{Individuazione delle texture}{13}{section*.24}%
+\contentsline {paragraph}{Problema}{13}{section*.25}%
+\contentsline {paragraph}{Soluzione}{13}{section*.26}%
+\contentsline {chapter}{\numberline {3}Sviluppo}{14}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Testing automatizzato}{14}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Note di sviluppo}{15}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Kimi Osti}{15}{subsection.3.2.1}%
+\contentsline {subsubsection}{Codice reperito online}{15}{section*.27}%
+\contentsline {subsection}{\numberline {3.2.2}Mazuru Mihai}{16}{subsection.3.2.2}%
+\contentsline {subsubsection}{Codice preso da altri}{16}{section*.28}%
+\contentsline {chapter}{\numberline {4}Commenti finali}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Autovalutazione e lavori futuri}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Mazuru Mihai}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Kimi Osti}{17}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Difficoltà incontrate e commenti per i docenti}{18}{section.4.2}%
+\contentsline {chapter}{\numberline {A}Guida utente}{19}{appendix.Alph1}%

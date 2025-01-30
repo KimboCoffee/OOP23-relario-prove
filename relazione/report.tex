@@ -96,9 +96,136 @@ Il software si basa sull’architettura MVC nella sua declinazione standard. In 
 
 \section{Design dettagliato}
 
+\subsection{Mazuru Mihai}
 
+\subsubsection{Furniture}
+\paragraph{Problema}: Nella modellazione degli oggetti di arredo mi sono imbattuto nel problema 
+di come realizzare diverse tipologie di arredi senza ripetizioni di codice. Questi oggetti 
+sono caratterizzati da un nome, una descrizione, una posizione e un tipo, e invece si differenziano 
+per le seguenti proprietà: attraversabilità e interattività.
+\paragraph{Soluzione} Ho optato per l'implementazione del pattern \textit{Template Method}. 
+L'ho applicato realizzando una classe astratta \textit{Furniture} che contiene la logica comune a 
+tutti gli oggetti di arredo (con i corrispettivi getter) e i metodi astratti \textit{isWalkable()} e 
+\textit{isInteractive()}. L'implementazione di questi metodi viene lasciata ad ogni sottoclasse.
+Difatti la classe \textit{WalkableFurniture} definisce oggetti di arredo con i quali si può interagire e
+che non ostacolano il passaggio delle entità viventi, mentre la classe \textit{ObstructingFurniture} 
+definisce oggetti con caratteristiche diametralmente opposte (bloccanti e non interattivi) e 
+invece la classe \textit{InteractiveFurniture} definisce oggetti con caratteristiche intermedie (bloccanti ed interattivi).
+\newline La soluzione scelta consente inoltre l'estendibilità, facilitando la creazione di una nuova
+ipotetica classe con oggetti attraversabili e non interattivi.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/template.png}
+	\caption{Schema UML dell'applicazione del pattern Template Method alla gerarchia delle Furniture.}
+	\label{img:template}
+\end{figure}
+
+\paragraph{Problema} La creazione dei diversi oggetti di arredo attraverso una semplice "new" comporterebbe
+l'aggiunta di dipendenze al nostro codice, rendendolo più difficile e tedioso da testare, 
+complicando la sua estendibilità ed eventualmente la sua manuntenzione. 
+\paragraph{Soluzione} Proprio per questo ho scelto di utilizzare il pattern \textit{Simple Factory} per la 
+creazione degli arredi. Ho realizzato un'interfaccia che contiene i metodi per la creazione dei diversi
+tipi di arredi. Questi metodi vengono implementati dalla sua sottoclasse, la quale è in grado di creare 
+oggetti randomici, specifici oppure solo di un determinato tipo. Gli unici parametri richiesti sono il tipo
+e la posizione dell'arredo, mentre le altre caratterische come il nome e la descrizione vengono gestite
+internamente alla factory attraverso una mappa che contiene per ogni tipo diverso di arredo una descrizione unica.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/furnitureSimpleFactory.png}
+	\caption{Schema UML dell'applicazione del patter Simple Factory per la creazione di Furniture.}
+	\label{img:furnitureSimpleFactory}
+\end{figure}
+
+\subsubsection{Gestione panelli di gioco}
+
+\paragraph{Problema} Il nostro progetto si articola in diversi momenti di gioco e il problema iniziale
+era proprio quello di capire come gestire nel migliore dei modi il passaggio da una pannello di gioco ad 
+un altro.
+\paragraph{Soluzione} Per risolvere questo problema il gruppo ha scelto di creare una \textit{MainView} che
+si sarebbe occupata della creazione del frame, della creazione dei vari pannelli di gioco e
+delle transizione da un pannello all'altro.
+Io mi sono occupato dell'implementazione e ho optato per l'utilizzo di \textit{CardLayout}, un manager layout
+che permette di associare ad ogni pannello una stringa di testo, attraverso la quale sarà possibile far emergere
+dalla "pila di carte" il pannello desiderato. L'invocazione del metodo per far emergere un certo pannello viene effettuata
+dal corrispondente controller.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/mainView.png}
+	\caption{Schema UML che rappresenta MainView, alcuni pannelli di gioco, alcuni controller del gioco e le loro interazioni.}
+	\label{img:mainView}
+\end{figure}
+
+\subsubsection{Gestione combattimento}
+
+\paragraph{Problema} Il combattimento è uno dei momenti più importanti del gioco e la sua gestione 
+in modo ottimale è fondamentale per garantire una gradevole esprienza all'utente. La gestione dei turni e la 
+gestione delle azioni di combattimenti sono aspetti importanti per il raggiungimento di questo obiettivo.
+\paragraph{Soluzione} Le possibili scelte all'interno della fase di combattimento sono: attaccare, chiedere pietà oppure
+aprire l'inventario. Queste possibili azioni vengono gestite tramite un Action Listener che notifica
+il \textit{CombatController}. Il controller in questione attraverso uno switch, al quale si accede solo se l'azione avviata
+precedentemente è finita, delega la gestione dell'azione agli appositi metodi privati oppure delega il lavoro al controller
+dell'inventario (nel caso si scelga di aprire l'inventario). 
+I turni invece vengono gestiti in maniera automatica. Una volta che il giocatore ha attaccato, il nemico, se è ancora in vita, 
+attacca subito a sua volta. L'unico caso in cui è il nemico ad attaccare per primo è quando al giocare viene negata
+la richiesta di pietà e di conseguenza salta il turno.
+Sono stati aggiunti dei \textit{Timer} per non accavallare le varie azioni e degli aggiornamenti testuli a fine di ogni azione, in modo da
+rendere il combattimento più intrattenete. Questi aggiornamenti testuali, insieme alle caratteristiche dei combattenti, vengono
+rese visibili e aggiornate attraverso una chiamata di "update" alla \textit{CombatView}. 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/combatController.png}
+	\caption{Schema UML che rappresenta il CombatController e le sue principali relazioni.}
+	\label{img:combatController}
+\end{figure}
+
+\subsection{Kimi Osti}
+Questa sezione è stata redatta facendo riferimento, oltre ai pattern presentati dalla Gang of Four, anche al libro \cite{nystrom2014}, presentato dal Prof. Alessandro Ricci durante il seminario Game as a Lab.
+
+\subsubsection{Input da tastiera nella fase di esplorazione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/observer-gameview.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:observer-gameview}
+\end{figure}
+\paragraph{Problema} Il giocatore comanda il personaggio principale tramite tastiera, e gli input devono essere catturati dal \textit{GameController}.
+\paragraph{Soluzione} La collaborazione fra classi viene realizzata grazie al pattern \textit{Observer}. In particolare, la classe \textit{GameView} fa da observable, e tramite il \textit{KeyListener} registrato trasmette i propri eventi al \textit{GameController}, che fa da observer. In particolare, in questa soluzione viene sfruttato un \textit{GameKeyListener} che implementa l'interfaccia \textit{KeyListener}, filtrando i tasti di interesse per il gioco e traducendoli in un particolare \textit{Event}, enumerazione definita all'interno del progetto per tracciare gli eventi rilevanti all'applicazione. Grazie a questa enumerazione, gli eventi sono trattati ad alto livello e si permette facilmente estendibilità verso la funzionalità opzionale della riassegnabilità dei tasti, a patto di permettere al GameKeyListener di modificare la mappatura da evento di pressione del tasto ed \textit{Event}.
+
+\subsubsection{Creazione e gestione dei componenti per l'interfaccia di esplorazione}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/factory-gameview.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:factory-gameview}
+\end{figure}
+\paragraph{Problema} Nell'interfaccia della fase di esplorazione, si deve renderizzare il contenuto della mappa, oltre a un banner contenente i comandi nella parte superiore dello schermo e un banner con eventuali messaggi di interazione nella fase inferiore. Ciò significa avere diversi pannelli, tutti accomunati dallo sfondo nero, e di cui i due superiori devono contenere eventualmente testo, mentre quelli centrali delle scene rappresentate dalla sovrapposizione di \textit{BackgroundTile} e \textit{ForegroundTile}
+\paragraph{Soluzione} Per alleggerire l'implementazione di \textit{GameView} e renderla più comprensibile, si è creata una helper class in grado di gestire i componenti dell'interfaccia. In particolare, si sottolineano i metodi che fungono da Factory, ovvero i tre metodi \textit{getGamePanel}, \textit{getBackgroundTile} e \textit{getForegroundTile} che vengono usati per creare i componenti che andranno poi a formare l'interfaccia grafica nel suo complesso. Vengono inoltre definiti due metodi per ridimensionare i componenti e per mostrare il testo contenuto al loro interno.
+
+\subsubsection{Gestione del Main Loop}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/game-loop.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:game-loop}
+\end{figure}
+\paragraph{Problema} Il Model, essendo presenti entità viventi all'interno della stanza, deve essere periodicamente aggiornato per rendere effettivo il movimento di tali entità, e in particolare il risultato dell'aggiornamento deve essere reso visibile all'utente tramite View.
+\paragraph{Soluzione} All'interno di \textit{MainControllerImpl} viene istanziato il \textit{GameLoop}, un thread separato che si occupa di gestire la temporizzazione degli aggiornamenti del Model, come presentato nel Game Loop Pattern in \cite{nystrom2014}. In questo modo, la gestione dell'input rimane delegata a \textit{GameControllerImpl}, mentre la temporizzazione dell'aggiornamento viene gestita da \textit{GameLoop} per evitare dipendenze. Inoltre, la temporizzazione viene legata al tempo reale piuttosto che al tempo di CPU, per evitare rese diverse su processori di diverse potenze. \textit{GameLoop} è anche deputata di comandare a \textit{GameView} gli aggiornamenti necessari a rappresentare le modifiche del Model, e per motivi legati alla rappresentazione unitaria della posizione all'interno del Model l'aggiornamento della View viene effettuato di pari passo rispetto a quello del Model, anche se si sarebbe potuto svincolare per massimizzare il framerate indipendentemente dalla velocità di aggiornamento del Model. 
+\newline Nello scenario del Game Loop pattern viene applicato anche il pattern dell'Update Method, sempre presentato in \cite{nystrom2014} e strettamente legato. In particolare, i metodi interessati sono \textit{update} in \textit{Room} e \textit{renderTextures} in \textit{GameView}.
+
+\subsubsection{Individuazione delle texture}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{img/locator-game.png}
+	\caption{Schema UML delle classi e interfacce coinvolte}
+	\label{img:locator-game}
+\end{figure}
+\paragraph{Problema} Durante la fase di esplorazione del gioco, ad ogni frame, il contenuto della stanza deve essere renderizzato traducendo le entità del Model in elementi rappresentabili dalla View.
+\paragraph{Soluzione} Per risolvere il problema riducendo al minimo le dipendenze, si è introdotta una classe che fa da Locator per le texture. In questo modo, il Controller, reificato in \textit{GameLoop}, può accedere al Model per interrogarlo sul contenuto della stanza, e inviare il contenuto del Model processato dal Locator alla View per il rendering. Ciò significa che il Main Loop rimane completamente agnostico rispetto al formato richiesto dalla View, delegando il compito di traduzione da classi di Model a risorse di View al Locator. In questo modo, una sostituzione anche in blocco della View comporterebbe necessità di modifica solo all'interno del Locator, evitando così di impattare Controller e Model.
 
 \chapter{Sviluppo}
+
 \section{Testing automatizzato}
 
 Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit e si sono realizzati test su quasi tutte le classi di Model e Controller. Ciò è stato fatto per garantire il corretto funzionamento dell’applicazione, e per avere la certezza che gli eventuali problemi riscontrati durante il gioco non fossero dovuti a mancanze di logica implementativa, quanto a problematiche di visualizzazione. 
@@ -117,209 +244,67 @@ Per quanto riguarda il testing automatizzato, si è sfruttata la libreria JUnit 
 
 \section{Note di sviluppo}
 
-Questa sezione, come quella riguardante il design dettagliato va svolta \textbf{singolarmente da ogni membro del gruppo}.
-%
-Nella prima parte, ciascuno dovrà mostrare degli esempi di codice particolarmente ben realizzati,
-che dimostrino proefficienza con funzionalità avanzate del linguaggio e capacità di spingersi oltre le librerie mostrate a lezione.
+\subsection{Kimi Osti}
 
+Di seguito si presentano singoli esempi di uso di costrutti avanzati di Java. Ciò non impedisce che all'interno del codice appaiano più situazioni in cui vengono usati.
 \begin{itemize}
-	\item \textbf{Elencare} (fare un semplice elenco per punti, non un testo!) le feature \textit{avanzate} del linguaggio e dell'ecosistema Java che sono state
-utilizzate. Le feature di interesse sono:
-	\begin{itemize}
-		\item Progettazione con generici, ad esempio costruzione di nuovi tipi generici, e uso di generici bounded.
-		L'uso di classi generiche di libreria non è considerato avanzato.
-		\item Uso di lambda expressions
-		\item Uso di \texttt{Stream}, di \texttt{Optional} o di altri costrutti funzionali
-		\item Uso di reflection
-		\item Definizione ed uso di nuove annotazioni
-		\item Uso del Java Platform Module System
-		\item Uso di parti della libreria JDK non spiegate a lezione (networking, compressione, parsing XML, eccetera...)
-		\item Uso di librerie di terze parti (incluso JavaFX): Google Guava, Apache Commons...
-	\end{itemize}
-	\item Si faccia molta attenzione a non scrivere banalità, elencando qui features di tipo ``core'', come le eccezioni, le enumerazioni, o le inner class: nessuna di queste è considerata avanzata.
-	\item Per ogni feature avanzata, mostrata, includere:
-	\begin{itemize}
-		\item Nome della feature
-		\item Permalink GitHub al punto nel codice in cui è stata utilizzata
-	\end{itemize}
+	\item \textbf{Java Wildcards} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/utils/impl/GameTexturesLocator.java#L42}
+	\item \textbf{Lambda Expressions e Optional} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/inventory/InventoryImpl.java#L40}
+	\item \textbf{InputStream} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/UserGuide.java#L54}
+	\item \textbf{Gestione dei Thread} al permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/cb9e0fd37a803cebfb509ff1b08d7df99b5ee8fc/src/main/java/it/unibo/oop/relario/controller/impl/GameLoop.java}
 \end{itemize}
 
-In questa sezione, \textit{dopo l'elenco},
-vanno menzionati ed attributi con precisione eventuali pezzi di codice ``riadattati'' (o scopiazzati...) da Internet o da altri progetti,
-pratica che tolleriamo ma che non raccomandiamo.
-%
-Si rammenta agli studenti che non è consentito partire da progetti esistenti e procedere per modifiche successive.
-%
-Si ricorda anche che i docenti hanno in mano strumenti antiplagio piuttosto raffinati e che ``capiscono'' il codice e la storia delle modifiche del progetto,
-per cui tecniche banali come cambiare nomi (di classi, metodi, campi, parametri, o variabili locali),
-aggiungere o togliere commenti,
-oppure riordinare i membri di una classe vengono individuate senza problemi.
-%
-Le regole del progetto spiegano in dettaglio l'approccio dei docenti verso atti gravi come il plagiarismo.
+\subsubsection{Codice reperito online}
+Per la realizzazione della classe BackgroundTile (Permalink:  \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/BackgroundTile.java}) si è preso spunto da \href{https://coderanch.com/t/336043/java/Images-top}{questa pagina di forum online}.
 
-I pattern di design \textbf{non} vanno messi qui.
-%
-L'uso di pattern di design (come suggerisce il nome) è un aspetto avanzato di design, non di implementazione,
-e non va in questa sezione.
-
-\subsection*{Elementi positivi}
-
+\subsection{Mazuru Mihai}
 \begin{itemize}
-	\item Si elencano gli aspetti avanzati di linguaggio che sono stati impiegati
-	\item Si elencano le librerie che sono state utilizzate
-	\item Per ciascun elemento, si fornisce un permalink
-	\item Ogni permalink fa riferimento ad uno snippet di codice scritto dall'autore della sezione (i docenti verificheranno usando \texttt{git blame})
-	\item Se si è utilizzato un particolare algoritmo, se ne cita la fonte originale.
-	Ad esempio, se si è usato Mersenne Twister per la generazione di numeri pseudo-random, si cita \cite{mersenne}.
-	\item Si identificano parti di codice prese da altri progetti, dal web, o comunque scritte in forma originale da altre persone.
-	In tal senso, si ricorda che agli ingegneri non è richiesto di re-inventare la ruota continuamente:
-	se si cita debitamente la sorgente è tollerato fare uso di di snippet di codice open source per risolvere velocemente problemi non banali.
-	Nel caso in cui si usino snippet di codice di qualità discutibile,
-	oltre a menzionarne l'autore originale si invitano gli studenti ad adeguare tali parti di codice agli standard e allo stile del progetto.
-	Contestualmente, si fa presente che è largamente meglio fare uso di una libreria che copiarsi pezzi di codice:
-	qualora vi sia scelta (e tipicamente c'è), si preferisca la prima via.
+	\item \textbf{Stream}: Utilizzato per il recuperare il valore corrispondente ad una nota chiave in una mappa.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/MainViewImpl.java#L84-L95}
+    
+	\item \textbf{Stream}: Utilizzato per filtrare gli arredamenti in base al loro tipo (Walkable, Obstructing, Interactive).
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/entities/furniture/impl/FurnitureFactoryImpl.java#L128-L131}
+
+	\item \textbf{Lambda function}: Utilizzato per l’Action Listener di JButton.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/view/impl/MenuView.java#L87-L109}
+
+	\item \textbf{Optional}: Utilizzo per gestire i nemici all'interno degli arredamenti.
+	Permalink \url{https://github.com/KimboCoffee/OOP23-relario/blob/d67fe167022e08cef63d110da0710154eb543292/src/main/java/it/unibo/oop/relario/model/entities/furniture/impl/WalkableFurnitureImpl.java#L12-L73}
 \end{itemize}
 
-\subsection*{Elementi negativi}
-\begin{itemize}
-	\item Si elencano feature core del linguaggio invece di quelle segnalate. Esempi di feature core da non menzionare sono:
-    \begin{itemize}
-        \item eccezioni;
-        \item classi innestate;
-        \item enumerazioni;
-        \item interfacce.
-    \end{itemize}
-	\item Si elencano applicazioni di terze parti (peggio se per usarle occorre licenza, e lo studente ne è sprovvisto) che non c'entrano nulla con lo sviluppo, ad esempio:
-    \begin{itemize}
-        \item Editor di grafica vettoriale come Inkscape o Adobe Illustrator;
-        \item Editor di grafica scalare come GIMP o Adobe Photoshop;
-        \item Editor di audio come Audacity;
-        \item Strumenti di design dell'interfaccia grafica come SceneBuilder: il codice è in ogni caso inteso come sviluppato da voi.
-    \end{itemize}
-	\item Si descrivono aspetti di scarsa rilevanza, o si scende in dettagli inutili.
-	\item Sono presenti parti di codice sviluppate originalmente da altri che non vengono debitamente segnalate.
-	In tal senso, si ricorda agli studenti che i docenti hanno accesso a tutti i progetti degli anni passati,
-	a Stack Overflow,
-	ai principali blog di sviluppatori ed esperti Java,
-	ai blog dedicati allo sviluppo di soluzioni e applicazioni
-	(inclusi blog dedicati ad Android e allo sviluppo di videogame),
-	nonché ai vari GitHub, GitLab, e Bitbucket.
-	Conseguentemente, è \emph{molto} conveniente \emph{citare} una fonte ed usarla invece di tentare di spacciare per proprio il lavoro di altri.
-	\item Si elencano design pattern
-\end{itemize}
-
-\subsection{Esempio}
-
-\subsubsection{Utilizzo della libreria SLF4J}
-
-Utilizzata in vari punti.
-Un esempio è \url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
-
-\subsubsection{Utilizzo di \texttt{LoadingCache} dalla libreria Google Guava}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
-
-\subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
-
-Usate pervasivamente. Il seguente è un singolo esempio.
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L98-L120}
-
-\subsubsection{Scrittura di metodo generico con parametri contravarianti}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
-
-\subsubsection{Protezione da corse critiche usando \texttt{Semaphore}}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L388-L440}
-
+\subsubsection{Codice preso da altri}
+\textbf{Modellazione molteplici menu}: Utilizzo model per gestire molteplici menu.
+Permalink \url{https://github.com/luca-casadei/OOP23-the-exiled/blob/3980cb23272808019d315d20593faae31b543f89/src/main/java/unibo/exiled/model/menu/MenuModelImpl.java#L6-L33}
 
 \chapter{Commenti finali}
 
-In quest'ultimo capitolo si tirano le somme del lavoro svolto e si delineano eventuali sviluppi
-futuri.
-
-\textit{Nessuna delle informazioni incluse in questo capitolo verrà utilizzata per formulare la valutazione finale}, a meno che non sia assente o manchino delle sezioni obbligatorie.
-%
-Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai docenti solo dopo aver formulato la valutazione.
-
 \section{Autovalutazione e lavori futuri}
 
-\textbf{È richiesta una sezione per ciascun membro del gruppo, obbligatoriamente}.
-%
-Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di debolezza in quanto prodotto.
-Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
-Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
-Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
+\subsection{Mazuru Mihai}
+Spero che il mio contributo all'interno del team sia stato significativo. All'inizio, a causa dell'ansia per questo progetto, ho avuto difficoltà a essere d'aiuto nelle fasi decisionali. Tuttavia, con il tempo, man mano che acquisivo maggiore confidenza con il progetto e con le persone con cui lavoravo, sono riuscito a sbloccarmi e a mettermi in gioco.
+
+Mi auguro inoltre di aver trasmesso agli altri membri del gruppo la mia determinazione, dimostrando il mio impegno nel partecipare a ogni incontro e contribuendo attivamente alla realizzazione del MainController e della MainView.
+
+Per quanto riguarda il resto del team, li considero colleghi straordinari e persone sempre disponibili, sia nel fornire chiarimenti che nel darmi una mano quando ne avevo bisogno.
+
+\subsection{Kimi Osti}
+Personalmente, questo è stato il primo progetto di gruppo di queste dimensioni a cui mi sono dedicato, e in particolare è stato il primo progetto a cui mi sono dedicato in ambito di videogiochi, tema che mi ha sempre molto affascinato e a cui vorrei dedicare anche la mia carriera futura. In particolare per questo motivo, ho trovato stimolante la fase di sviluppo del software e particolarmente gratificante riuscire a produrre un risultato finale funzionante.
+\newline Per quanto riguarda lo sviluppo del software - guardando indietro alle fasi iniziali del progetto - posso dire di ritenermi abbastanza soddisfatto. Durante il corso del progetto ho principalmente appreso alcune delle dinamiche nello sviluppo di software di dimensioni più grandi rispetto ai soliti progetti individuali a cui mi ero dedicato in precedenza, e ho anche capito alcuni concetti che - prima di iniziare a lavorare su questo progetto - non avrei saputo affrontare. Pertanto, posso dire che questo progetto mi è servito individualmente a maturare ulteriormente, e che se dovessi tornare indietro probabilmente lavorerei in modo diverso non tanto per modificare il risultato finale (che si è dimostrato abbastanza vicino a quello che mi ero prefigurato prima di iniziare il lavoro), quanto più in virtù delle dinamiche che ho appreso durante il lavoro e che avrebbero permesso di produrre software in maniera più efficiente.
+\newline Per quanto riguarda le dinamiche di gruppo, posso dirmi abbastanza soddisfatto, soprattutto per il fatto che, anche se in alcune fasi vi sono state divergenze di vedute su alcune tematiche, non si sia mai arrivati a situazioni critiche che abbiano pregiudicato lo svolgimento del lavoro. Fin da prima di presentare il progetto, però, sono stato io a presentare l'idea su cui poi si è sviluppato il gioco, e durante il progetto - complice la fiducia che i miei compagni hanno riposto in me - ho assunto il ruolo di "coordinatore" del lavoro. Questo ha però inevitabilmente significato che gran parte delle idee su cui si basa il modello del gioco siano arrivate da me, e che poi io mi sia trovato - soprattutto nelle fasi finali - ad affrontare personalmente le fasi di sviluppo più delicate, come per esempio la soluzione di possibili bug sottolineati dagli strumenti di analisi statica del codice oppure la soluzione del problema di mancato caricamento delle risorse che si è presentata quando abbiamo assemblato il jar per la consegna finale.
+\newline Nel complesso però, mi sento di dire che il risultato finale rispecchia abbastanza l'idea che avevo del gioco prima di iniziare lo sviluppo, e che ho trovato stimolante il processo di realizzazione. Per come è strutturato il software ci sarebbe margine per allargarlo e portarlo a qualcosa di più di una demo da qualche minuto, anche se dubito che possa accadere. D'altro canto, personalmente vedo rafforzata la mia passione verso il mondo dello sviluppo di videogiochi, e sono volenteroso di portare avanti questa passione anche con progetti personali che possano permettermi di approfondire ulteriormente parti dello sviluppo che per motivi di suddivisione del lavoro ho toccato meno.
 
 \section{Difficoltà incontrate e commenti per i docenti}
-
-Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-%
-È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-%
-Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
 
 \appendix
 \chapter{Guida utente}
 
-Capitolo in cui si spiega come utilizzare il software. Nel caso in cui il suo uso sia del tutto
-banale, tale capitolo può essere omesso.
-%
-A tal riguardo, si fa presente agli studenti che i docenti non hanno mai utilizzato il software
-prima, per cui aspetti che sembrano del tutto banali a chi ha sviluppato l'applicazione possono non
-esserlo per chi la usa per la prima volta.
-%
-Se, ad esempio, per cominciare una partita con un videogioco è necessario premere la barra
-spaziatrice, o il tasto ``P'', è necessario che gli studenti lo segnalino.
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
- \item Si istruisce in modo semplice l'utente sull'uso dell'applicazione, eventualmente facendo uso di schermate e descrizioni.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Si descrivono in modo eccessivamente minuzioso tutte le caratteristiche, anche minori, del software in oggetto.
- \item Manca una descrizione che consenta ad un utente qualunque di utilizzare almeno le funzionalità primarie dell'applicativo.
-\end{itemize}
-
-\chapter{Esercitazioni di laboratorio}
-
-In questo capitolo ciascuno studente elenca gli esercizi di laboratorio che ha svolto
-(se ne ha svolti),
-elencando i permalink dei post sul forum dove è avvenuta la consegna.
-%
-Questa sezione potrebbe essere processata da strumenti automatici,
-per cui link a oggetti diversi dal permalink della consegna,
-errori nell'email o nel nome del laboratorio possono portare ad ignorare alcune consegne,
-si raccomanda la massima precisione.
-
-\section*{Esempio}
-
-\subsection{paolino.paperino@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
-\end{itemize}
-
-\subsection{paperon.depaperoni@studio.unibo.it}
-
-\begin{itemize}
- \item Laboratorio 04: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=12345#p123456}
- \item Laboratorio 05: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 06: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 07: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 08: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 09: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
- \item Laboratorio 10: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=99999#p999999}
- \item Laboratorio 11: \url{https://virtuale.unibo.it/mod/forum/discuss.php?d=22222#p222222}
-\end{itemize}
-
+Durante il gioco l'utente deve attraversare delle stanze, in cui deve completare eventuali quest.
+\newline Nei menu, come nel combattimento, l'input viene accettato tramite mouse, con dei clic sui bottoni che rappresentano l'azione desiderata.
+\newline Durante l'esplorazione, il giocatore si sposta con WASD, interagisce con la cella che guarda con E e apre l'inventario con I.
+\newline Per superare ciascuna stanza, deve completare la quest(se presente) che gli viene presentata dall'NPC fermo all'entrata. Dopo aver completato la quest, deve raggiungere il tappeto situato a destra della stanza, e interagire da sopra la casella al suo entremo destro per proseguire nella stanza successiva.
+\newline All'interno dell'inventario, gli oggetti vengono scelti con le frecce verticali, e si possono equipaggiare con ENTER oppure scartare con BACKSPACE. Un oggetto che non abbia effetto, quando usato, viene "consumato" e non risulta quindi piu' disponibile.
 
 \bibliographystyle{alpha}
-\bibliography{13-template}
+\bibliography{report}
 
 \end{document}
